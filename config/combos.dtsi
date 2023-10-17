@@ -15,10 +15,10 @@
 #define COMBO_TERM_SLOW 30
 
 // make homerow combos tap-only (so HRMs can be chorded instantaneously)
-// MAKE_HRM(hml_lpar, &kp LS(LGUI), &kp LPAR, KEYS_R THUMBS)
-// MAKE_HRM(hmr_rpar, &kp, &kp RPAR, KEYS_L THUMBS)
-// MAKE_HRM(hml_lbkt, &kp, &kp LEFT_BRACKET, KEYS_R THUMBS)
-// MAKE_HRM(hmr_rbkt, &kp, &kp RIGHT_BRACKET, KEYS_L THUMBS)
+#define HMC_ESC   &hml LS(LALT) ESC
+#define HMC_TAB   &hml LS(LGUI) TAB
+#define HMC_EQUAL &hmr RS(RGUI) EQUAL
+#define HMC_BSPC  &hmr RS(RALT) BSPC
 
 ZMK_BEHAVIOR(lrbkt, macro,
   bindings = <&kp LBKT &kp RBKT>;
@@ -39,8 +39,8 @@ ZMK_COMBO(lbrc,  &kp LBRC,      LT3 LT2,     ALL, COMBO_TERM_FAST)
 ZMK_COMBO(rbrc,  &kp RBRC,      LT2 LT1,     ALL, COMBO_TERM_FAST)
 ZMK_COMBO(lrbrc, &lrbrc,        LT3 LT1,     ALL, COMBO_TERM_FAST)
 
-ZMK_COMBO(esc,   &kp ESC,       LM3 LM2,     ALL, COMBO_TERM_FAST)
-ZMK_COMBO(tab,   &kp TAB,       LM2 LM1,     ALL, COMBO_TERM_FAST)
+ZMK_COMBO(esc,   HMC_ESC,       LM3 LM2,     ALL, COMBO_TERM_FAST)
+ZMK_COMBO(tab,   HMC_TAB,       LM2 LM1,     ALL, COMBO_TERM_FAST)
 
 ZMK_COMBO(lbkt,  &kp LBKT,      LB3 LB2,     ALL, COMBO_TERM_FAST)
 ZMK_COMBO(rbkt,  &kp RBKT,      LB2 LB1,     ALL, COMBO_TERM_FAST)
@@ -51,8 +51,8 @@ ZMK_COMBO(lpar,  &kp LPAR,      RT1 RT2,     ALL, COMBO_TERM_FAST)
 ZMK_COMBO(rpar,  &kp RPAR,      RT2 RT3,     ALL, COMBO_TERM_FAST)
 ZMK_COMBO(lrpar, &lrpar,        RT1 RT3,     ALL, COMBO_TERM_FAST)
 
-ZMK_COMBO(equal, &kp EQUAL,     RM1 RM2,     ALL, COMBO_TERM_FAST)
-ZMK_COMBO(bspc,  &kp BSPC,      RM2 RM3,     ALL, COMBO_TERM_FAST)
+ZMK_COMBO(equal, HMC_EQUAL,     RM1 RM2,     ALL, COMBO_TERM_FAST)
+ZMK_COMBO(bspc,  HMC_BSPC,      RM2 RM3,     ALL, COMBO_TERM_FAST)
 
 ZMK_COMBO(lt,    &kp LT,        RB1 RB2,     ALL, COMBO_TERM_FAST)
 ZMK_COMBO(gt,    &kp GT,        RB2 RB3,     ALL, COMBO_TERM_FAST)
@@ -66,7 +66,7 @@ ZMK_COMBO(prcnt, &kp PRCNT,     LT0 LM0,     ALL, COMBO_TERM_SLOW)
 
 ZMK_COMBO(grave, &kp GRAVE,     LM3 LB3,     ALL, COMBO_TERM_SLOW)
 ZMK_COMBO(bslh,  &kp BSLH,      LM2 LB2,     ALL, COMBO_TERM_SLOW)
-ZMK_COMBO(euro,  &kp LS(LA(2)), LM1 LB1,     ALL, COMBO_TERM_SLOW)
+ZMK_COMBO(euro,  &kp LS(LA(N2)),LM1 LB1,     ALL, COMBO_TERM_SLOW)
 ZMK_COMBO(tilde, &kp TILDE,     LM0 LB0,     ALL, COMBO_TERM_SLOW)
 
 /* Vertical combos - right hand */
