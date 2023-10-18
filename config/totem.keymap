@@ -54,7 +54,7 @@
 };
 
 /************************************************************************************/
-/* Homerow mods and autoshift */
+/* Homerow mods */
 
 #define KEYS_L LT0 LT1 LT2 LT3 LT4 LM0 LM1 LM2 LM3 LM4 LB0 LB1 LB2 LB3 LB4 LB5  // left hand
 #define KEYS_R RT0 RT1 RT2 RT3 RT4 RM0 RM1 RM2 RM3 RM4 RB0 RB1 RB2 RB3 RB4 RB5  // right hand
@@ -73,16 +73,6 @@
 
 MAKE_HRM(hml, &kp, &kp, KEYS_R THUMBS)  // left-hand HRMs
 MAKE_HRM(hmr, &kp, &kp, KEYS_L THUMBS)  // right-hand HRMs
-
-
-/* Autoshift, freely copied from https://zmk.dev/docs/behaviors/hold-tap#example-use-cases */
-#define AS(keycode) &as LS(keycode) keycode     // Autoshift Macro
-ZMK_BEHAVIOR(as, hold_tap,
-    flavor = "tap-preferred";
-    tapping-term-ms = <150>;
-    quick-tap-ms = <QUICK_TAP_MS>;
-    bindings = <&kp>, <&kp>;
-)
 
 /************************************************************************************/
 /* Caps-word, num-word and smart-mouse */
@@ -123,7 +113,7 @@ ZMK_BEHAVIOR(smart_num, hold_tap,
 // )
 
 /************************************************************************************/
-/* Other custom behaviors */
+/* Other/my custom behaviors */
 
 // Alt+Tab swapper, requires PR #1366
 ZMK_BEHAVIOR(swapper, tri_state,
@@ -165,18 +155,39 @@ ZMK_BEHAVIOR(dot_spc, macro,
     bindings = <&kp DOT &kp SPACE &sk LSFT>;
 )
 
+/////////////////////////////////////////////////////
 // hold-tap with a completely different key on hold (and not only modifiers)
-ZMK_BEHAVIOR(holdmorph, hold_tap,
+ZMK_BEHAVIOR(cmdtap, macro_one_param,
+    bindings = <&macro_press &kp LGUI>
+             , <&macro_param_1to1>
+             , <&macro_tap &kp MACRO_PLACEHOLDER>
+             , <&macro_release &kp LGUI>;
+)
+ZMK_BEHAVIOR(cmdsfttap, macro_one_param,
+    bindings = <&macro_press &kp LGUI &kp LSFT>
+             , <&macro_param_1to1>
+             , <&macro_tap &kp MACRO_PLACEHOLDER>
+             , <&macro_release &kp LSFT &kp LGUI>;
+)
+ZMK_BEHAVIOR(cmdhold, hold_tap,
     flavor = "tap-preferred";
     tapping-term-ms = <200>;
-    bindings = <&kp>, <&kp>;
+    bindings = <&cmdtap>, <&kp>;
 )
+ZMK_BEHAVIOR(cmdsfthold, hold_tap,
+    flavor = "tap-preferred";
+    tapping-term-ms = <200>;
+    bindings = <&cmdsfttap>, <&kp>;
+)
+
+#define ASCMD(keycode)  &cmdsfthold keycode LG(keycode)
+
 // tap: CMD+G | hold: CMD+F
-#define CMD_G_F       &holdmorph LG(F) LG(G)
+#define CMD_G_F      &cmdhold F LG(G)
 // tap: CMD+SHFT+G | hold: CMD+SHFT+F
-#define CMD_SHFT_G_F  &holdmorph LG(LS(F)) LG(LS(G))
+#define CMD_SFT_G_F  &cmdsfthold F LG(LS(G))
 // tap: CMD+[ | hold: CMD+]
-#define CMD_LR_BRKT   &holdmorph LG(RBKT) LG(LBKT)
+#define CMD_LR_BRKT  &cmdhold RBKT LG(LBKT)
 
 /************************************************************************************/
 /* Misc. defines */
@@ -196,13 +207,13 @@ ZMK_LAYER(base,
 //╭─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────╮
     &kp BSPC      &kp X         &kp Z         &kp K         &kp C         &kp V           &kp B         &kp H         &comma_morph  &dot_morph    &qexcl        &key_repeat
 //╰─────────────┼─────────────┼─────────────┴─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┴─────────────┴─────────────╯
-                                              &lt WIN ESC   &smart_shft   &lt SHRT RET    SMART_NUM     LT_SPC_NAV    &kp BSPC
+                                              &lt SHRT ESC  &smart_shft   &lt WIN RET     SMART_NUM     LT_SPC_NAV    &kp BSPC
 //                                          ╰─────────────┴─────────────┴─────────────╯ ╰─────────────┴─────────────┴─────────────╯
 )
 
 ZMK_LAYER(navigation,
 //              ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮ ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
-                  _X_           _X_           _X_           _X_           CMD_SHFT_G_F    &kp LA(BSPC)  &kp BSPC      &kp UP        &kp DEL       &kp LA(DEL)
+                  _X_           _X_           _X_           _X_           CMD_SFT_G_F     &kp LA(BSPC)  &kp BSPC      &kp UP        &kp DEL       &kp LA(DEL)
 //              ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
                   &kp LCTL      &kp LALT      &kp LSFT      &kp LGUI      CMD_G_F         &kp LA(LEFT)  &kp LEFT      &kp DOWN      &kp RIGHT     &kp LA(RIGHT)
 //╭─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────╮
@@ -226,11 +237,11 @@ ZMK_LAYER(numbers,
 
 ZMK_LAYER(shortcuts,
 //              ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮ ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
-                  AS(LG(Q))     AS(LG(W))     &kp LC(LS(TAB)) &kp LC(TAB) CMD_SHFT_G_F    &kp C_BRI_UP  _X_           &kp C_VOL_UP  _X_           _X_
+                  &kp LG(Q)     ASCMD(W)      &kp LC(LS(TAB)) &kp LC(TAB) CMD_SFT_G_F     &kp C_BRI_UP  _X_           &kp C_VOL_UP  _X_           _X_
 //              ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
-                  AS(LG(A))     AS(LG(S))     AS(LG(R))     AS(LG(T))     CMD_G_F         &kp C_BRI_DN  &kp C_PREV    &kp C_VOL_DN  &kp C_NEXT    _X_
+                  ASCMD(A)      ASCMD(S)      ASCMD(R)      ASCMD(T)      CMD_G_F         &kp C_BRI_DN  &kp C_PREV    &kp C_VOL_DN  &kp C_NEXT    _X_
 //╭─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────╮
-    _X_           AS(LG(X))     AS(LG(Z))     CMD_LR_BRKT   AS(LG(C))     AS(LG(V))       _X_           _X_           &kp C_MUTE    _X_           _X_           _X_
+    _X_           ASCMD(X)      ASCMD(Z)      CMD_LR_BRKT   ASCMD(C)      ASCMD(V)        _X_           _X_           &kp C_MUTE    _X_           _X_           _X_
 //╰─────────────┼─────────────┼─────────────┴─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┴─────────────┴─────────────╯
                                               _X_           &kp CAPSLOCK  _X_             &kp C_PP      _X_           &kp K_CMENU
 //                                          ╰─────────────┴─────────────┴─────────────╯ ╰─────────────┴─────────────┴─────────────╯
@@ -238,13 +249,13 @@ ZMK_LAYER(shortcuts,
 
 ZMK_LAYER(windows,
 //              ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮ ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
-                  HYPER(F9)     HYPER(W)      &kp LS(TAB)   &swapper      AS(LG(GRAVE))   _X_           _X_           _X_           _X_           _X_
+                  HYPER(F9)     HYPER(W)      &kp LS(TAB)   &swapper      ASCMD(GRAVE)    _X_           _X_           _X_           _X_           _X_
 //              ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
                   HYPER(A)      HYPER(S)      HYPER(R)      HYPER(T)      HYPER(G)        &bt BT_CLR    _X_           _X_           _X_           _X_
 //╭─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────╮
     HYPER(F10)    HYPER(X)      HYPER(Z)      HYPER(K)      HYPER(C)      HYPER(V)        _X_           &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  _X_           _X_
 //╰─────────────┼─────────────┼─────────────┴─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┴─────────────┴─────────────╯
-                                              _X_           &sys_reset    &bootloader     &bootloader   &sys_reset    &out OUT_TOG
+                                              &bootloader   &sys_reset    _X_             &out OUT_TOG  &sys_reset    &bootloader
 //                                          ╰─────────────┴─────────────┴─────────────╯ ╰─────────────┴─────────────┴─────────────╯
 )
 
