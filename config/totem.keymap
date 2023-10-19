@@ -53,6 +53,21 @@
     quick-tap-ms = <QUICK_TAP_MS>;
 };
 
+#define SIMPLE_MACRO(NAME, KEYPRESSES) \
+    ZMK_BEHAVIOR(NAME, macro, \
+        bindings = <KEYPRESSES>; \
+    )
+
+/////////////////////////////////////////////////////
+// hold-tap with regular keypress on tap and a simple keypress macro on hold
+#define MACROHOLD(NAME, MACROKEYPRESSES) \
+    SIMPLE_MACRO(macrohold_macro_ ## NAME, MACROKEYPRESSES) \
+    ZMK_BEHAVIOR(macrohold_ ## NAME, hold_tap, \
+        flavor = "tap-preferred"; \
+        tapping-term-ms = <200>; \
+        bindings = <&macrohold_macro_ ## NAME>, <&kp>; \
+    )
+
 /************************************************************************************/
 /* Homerow mods */
 
@@ -133,30 +148,16 @@ ZMK_BEHAVIOR(dot_morph, mod_morph,
     bindings = <&kp DOT>, <&kp COLON>;
 )
 
-// tap: question mark | shift + tap: exclamation mark
+// tap: question mark | shift + tap: exclamation mark (with ' != ' on hold)
+MACROHOLD(excl, &kp SPACE &kp EXCL &kp EQUAL &kp SPACE)
+#define EXCLHOLD &macrohold_excl 0 EXCL
 ZMK_BEHAVIOR(qexcl, mod_morph,
     mods = <(MOD_LSFT|MOD_RSFT)>;
-    bindings = <&kp QMARK>, <&kp EXCL>;
-)
-
-// tap: space | shift + tap: dot -> space -> sticky shift | hold: activate layer
-#define LT_SPC_NAV &lt_spc_nav NAV 0
-ZMK_BEHAVIOR(lt_spc_nav, hold_tap,
-    flavor = "balanced";
-    tapping-term-ms = <200>;
-    quick-tap-ms = <QUICK_TAP_MS>;
-    bindings = <&mo>, <&spc_morph>;
-)
-ZMK_BEHAVIOR(spc_morph, mod_morph,
-    mods = <(MOD_LSFT|MOD_RSFT)>;
-    bindings = <&kp SPACE>, <&dot_spc>;
-)
-ZMK_BEHAVIOR(dot_spc, macro,
-    bindings = <&kp DOT &kp SPACE &sk LSFT>;
+    bindings = <&kp QMARK>, <EXCLHOLD>;
 )
 
 /////////////////////////////////////////////////////
-// hold-tap with a completely different key on hold (and not only modifiers)
+// hold-tap with cmd-(shift-)modified keys hold
 ZMK_BEHAVIOR(cmdtap, macro_one_param,
     bindings = <&macro_press &kp LGUI>
              , <&macro_param_1to1>
@@ -207,13 +208,13 @@ ZMK_LAYER(base,
 //╭─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────╮
     &kp BSPC      &kp X         &kp Z         &kp K         &kp C         &kp V           &kp B         &kp H         &comma_morph  &dot_morph    &qexcl        &key_repeat
 //╰─────────────┼─────────────┼─────────────┴─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┴─────────────┴─────────────╯
-                                              &lt SHRT ESC  &smart_shft   &lt WIN RET     SMART_NUM     LT_SPC_NAV    &kp BSPC
+                                              &lt SHRT ESC  &smart_shft   &lt WIN RET     SMART_NUM     &lt NAV SPC   &kp BSPC
 //                                          ╰─────────────┴─────────────┴─────────────╯ ╰─────────────┴─────────────┴─────────────╯
 )
 
 ZMK_LAYER(navigation,
 //              ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮ ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
-                  _X_           _X_           _X_           _X_           CMD_SFT_G_F     &kp LA(BSPC)  &kp BSPC      &kp UP        &kp DEL       &kp LA(DEL)
+                  _X_           &kp LG(W)     &kp LG(LS(W)) _X_           CMD_SFT_G_F     &kp LA(BSPC)  &kp BSPC      &kp UP        &kp DEL       &kp LA(DEL)
 //              ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
                   &kp LCTL      &kp LALT      &kp LSFT      &kp LGUI      CMD_G_F         &kp LA(LEFT)  &kp LEFT      &kp DOWN      &kp RIGHT     &kp LA(RIGHT)
 //╭─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────╮
@@ -243,7 +244,7 @@ ZMK_LAYER(shortcuts,
 //╭─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────╮
     _X_           ASCMD(X)      ASCMD(Z)      CMD_LR_BRKT   ASCMD(C)      ASCMD(V)        _X_           _X_           &kp C_MUTE    _X_           _X_           _X_
 //╰─────────────┼─────────────┼─────────────┴─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┴─────────────┴─────────────╯
-                                              _X_           &kp CAPSLOCK  _X_             &kp C_PP      _X_           &kp K_CMENU
+                                              _X_           &kp CAPSLOCK  _X_             _X_           _X_           &kp C_PP
 //                                          ╰─────────────┴─────────────┴─────────────╯ ╰─────────────┴─────────────┴─────────────╯
 )
 

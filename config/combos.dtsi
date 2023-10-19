@@ -11,27 +11,28 @@
 #undef COMBO_HOOK
 #define COMBO_HOOK require-prior-idle-ms = <150>;
 
-#define COMBO_TERM_FAST 18
+#define COMBO_TERM_FAST 22
 #define COMBO_TERM_SLOW 30
 
 // make homerow combos tap-only (so HRMs can be chorded instantaneously)
 #define HMC_ESC   &hml LS(LALT) ESC
 #define HMC_TAB   &hml LS(LGUI) TAB
-#define HMC_EQUAL &hmr RS(RGUI) EQUAL
+#define HMC_MINUS &hmr RS(RGUI) MINUS
 #define HMC_BSPC  &hmr RS(RALT) BSPC
 
-ZMK_BEHAVIOR(lrbkt, macro,
-  bindings = <&kp LBKT &kp RBKT>;
-)
-ZMK_BEHAVIOR(lrbrc, macro,
-  bindings = <&kp LBRC &kp RBRC>;
-)
-ZMK_BEHAVIOR(lrpar, macro,
-  bindings = <&kp LPAR &kp RPAR>;
-)
-ZMK_BEHAVIOR(ltgt, macro,
-  bindings = <&kp LT &kp GT>;
-)
+SIMPLE_MACRO(lrbkt, &kp LBKT &kp RBKT)
+SIMPLE_MACRO(lrbrc, &kp LBRC &kp RBRC)
+SIMPLE_MACRO(lrpar, &kp LPAR &kp RPAR)
+SIMPLE_MACRO(ltgt,  &kp LT &kp GT)
+
+#define EURO &kp LS(LA(N4))
+
+MACROHOLD(equal, &kp SPACE &kp EQUAL &kp EQUAL &kp SPACE)
+#define EQUALHOLD &macrohold_equal 0 EQUAL
+MACROHOLD(amps, &kp SPACE &kp AMPS  &kp AMPS  &kp SPACE)
+#define AMPSHOLD &macrohold_amps 0 AMPS
+MACROHOLD(pipe, &kp SPACE &kp PIPE  &kp PIPE  &kp SPACE)
+#define PIPEHOLD &macrohold_pipe 0 PIPE
 
 /*********************************************************/
 /* Horizontal combos - left hand */
@@ -51,7 +52,7 @@ ZMK_COMBO(lpar,  &kp LPAR,      RT1 RT2,     ALL, COMBO_TERM_FAST)
 ZMK_COMBO(rpar,  &kp RPAR,      RT2 RT3,     ALL, COMBO_TERM_FAST)
 ZMK_COMBO(lrpar, &lrpar,        RT1 RT3,     ALL, COMBO_TERM_FAST)
 
-ZMK_COMBO(equal, HMC_EQUAL,     RM1 RM2,     ALL, COMBO_TERM_FAST)
+ZMK_COMBO(minus, HMC_MINUS,     RM1 RM2,     ALL, COMBO_TERM_FAST)
 ZMK_COMBO(bspc,  HMC_BSPC,      RM2 RM3,     ALL, COMBO_TERM_FAST)
 
 ZMK_COMBO(lt,    &kp LT,        RB1 RB2,     ALL, COMBO_TERM_FAST)
@@ -66,19 +67,19 @@ ZMK_COMBO(prcnt, &kp PRCNT,     LT0 LM0,     ALL, COMBO_TERM_SLOW)
 
 ZMK_COMBO(grave, &kp GRAVE,     LM3 LB3,     ALL, COMBO_TERM_SLOW)
 ZMK_COMBO(bslh,  &kp BSLH,      LM2 LB2,     ALL, COMBO_TERM_SLOW)
-ZMK_COMBO(euro,  &kp LS(LA(N2)),LM1 LB1,     ALL, COMBO_TERM_SLOW)
+ZMK_COMBO(euro,  EURO,          LM1 LB1,     ALL, COMBO_TERM_SLOW)
 ZMK_COMBO(tilde, &kp TILDE,     LM0 LB0,     ALL, COMBO_TERM_SLOW)
 
 /* Vertical combos - right hand */
 ZMK_COMBO(caret, &kp CARET,     RT0 RM0,     ALL, COMBO_TERM_SLOW)
-ZMK_COMBO(plus,  &kp PLUS,      RT1 RM1,     ALL, COMBO_TERM_SLOW)
+ZMK_COMBO(amps,  AMPSHOLD,      RT1 RM1,     ALL, COMBO_TERM_SLOW)
 ZMK_COMBO(star,  &kp STAR,      RT2 RM2,     ALL, COMBO_TERM_SLOW)
-ZMK_COMBO(amps,  &kp AMPS,      RT3 RM3,     ALL, COMBO_TERM_SLOW)
+ZMK_COMBO(equal, EQUALHOLD,     RT3 RM3,     ALL, COMBO_TERM_SLOW)
 
 ZMK_COMBO(under, &kp UNDER,     RM0 RB0,     ALL, COMBO_TERM_SLOW)
-ZMK_COMBO(minus, &kp MINUS,     RM1 RB1,     ALL, COMBO_TERM_SLOW)
+ZMK_COMBO(pipe,  PIPEHOLD,      RM1 RB1,     ALL, COMBO_TERM_SLOW)
 ZMK_COMBO(fslh,  &kp FSLH,      RM2 RB2,     ALL, COMBO_TERM_SLOW)
-ZMK_COMBO(pipe,  &kp PIPE,      RM3 RB3,     ALL, COMBO_TERM_SLOW)
+ZMK_COMBO(plus,  &kp PLUS,      RM3 RB3,     ALL, COMBO_TERM_SLOW)
 
 /* Thumb combos - left hand */
 ZMK_COMBO(f1,    &kp F1,        LH0 LB3,     ALL, COMBO_TERM_SLOW)
