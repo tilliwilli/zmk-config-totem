@@ -53,12 +53,20 @@
     quick-tap-ms = <QUICK_TAP_MS>;
 };
 
+&mt {  // mod-tap config
+    flavor = "balanced";
+    tapping-term-ms = <200>;
+    quick-tap-ms = <QUICK_TAP_MS>;
+};
+
+/////////////////////////////////////////////////////
+// some general macro defines
+
 #define SIMPLE_MACRO(NAME, KEYPRESSES) \
     ZMK_BEHAVIOR(NAME, macro, \
         bindings = <KEYPRESSES>; \
     )
 
-/////////////////////////////////////////////////////
 // hold-tap with regular keypress on tap and a simple keypress macro on hold
 #define MACROHOLD(NAME, MACROKEYPRESSES) \
     SIMPLE_MACRO(macrohold_macro_ ## NAME, MACROKEYPRESSES) \
@@ -92,27 +100,23 @@ MAKE_HRM(hmr, &kp, &kp, KEYS_L THUMBS)  // right-hand HRMs
 /************************************************************************************/
 /* Caps-word, num-word and smart-mouse */
 
-// tap: sticky-shift | shift + tap (i.e. double-tap): caps-word | hold: shift
+// tap/hold: shift | shift + tap (by using the HRM shift): caps-word
 ZMK_BEHAVIOR(smart_shft, mod_morph,
-    bindings = <&sk LSFT>, <&caps_word>;
-    mods = <(MOD_LSFT)>;
+    mods = <(MOD_LSFT|MOD_RSFT)>;
+    bindings = <&kp LSFT>, <&caps_word>;
 )
 // &caps_word {  // mods deactivate caps-word, requires PR #1451
 //     /delete-property/ ignore-modifiers;
 // };
 
 
-// tap: num-word | double-tap: sticky num-layer | hold: num-layer
+// tap: num-word | hold: num-layer
 #define SMART_NUM &smart_num NUM 0
 ZMK_BEHAVIOR(smart_num, hold_tap,
     flavor = "balanced";
     tapping-term-ms = <200>;
     bindings = <&mo>, <&num_word>;
 )
-// ZMK_BEHAVIOR(num_dance, tap_dance,
-    // tapping-term-ms = <200>;
-    // bindings = <&num_word>, <&sl NUM>;  // reverse this for sticky-num on single tap
-// )
 &num_word {  // num-word, requires PR #1451
     layers = <NUM>;
     continue-list = <BSPC DEL DOT COMMA PLUS MINUS STAR FSLH EQUAL LPAR RPAR RIGHT LEFT F1 F2 F3 F4 F5 F6 F7 F8 F9 F10 F11 F12>;
@@ -156,8 +160,8 @@ ZMK_BEHAVIOR(qexcl, mod_morph,
     bindings = <&kp QMARK>, <EXCLHOLD>;
 )
 
-/////////////////////////////////////////////////////
-// hold-tap with cmd-(shift-)modified keys hold
+////////////////////////////////////////////////////////////////////////////////////////
+// hold-tap with single taps of modified keys on hold (no repeat on hold)
 ZMK_BEHAVIOR(cmdtap, macro_one_param,
     bindings = <&macro_press &kp LGUI>
              , <&macro_param_1to1>
@@ -170,6 +174,13 @@ ZMK_BEHAVIOR(cmdsfttap, macro_one_param,
              , <&macro_tap &kp MACRO_PLACEHOLDER>
              , <&macro_release &kp LSFT &kp LGUI>;
 )
+ZMK_BEHAVIOR(hypertap, macro_one_param,
+    bindings = <&macro_press &kp LGUI &kp LALT &kp LCTL &kp LSFT>
+             , <&macro_param_1to1>
+             , <&macro_tap &kp MACRO_PLACEHOLDER>
+             , <&macro_release &kp LGUI &kp LALT &kp LCTL &kp LSFT>;
+)
+
 ZMK_BEHAVIOR(cmdhold, hold_tap,
     flavor = "tap-preferred";
     tapping-term-ms = <200>;
@@ -180,7 +191,13 @@ ZMK_BEHAVIOR(cmdsfthold, hold_tap,
     tapping-term-ms = <200>;
     bindings = <&cmdsfttap>, <&kp>;
 )
+ZMK_BEHAVIOR(hyperhold, hold_tap,
+    flavor = "tap-preferred";
+    tapping-term-ms = <200>;
+    bindings = <&hypertap>, <&kp>;
+)
 
+// auto-shift for a CMD-* keypress
 #define ASCMD(keycode)  &cmdsfthold keycode LG(keycode)
 
 // tap: CMD+G | hold: CMD+F
@@ -192,9 +209,16 @@ ZMK_BEHAVIOR(cmdsfthold, hold_tap,
 
 /************************************************************************************/
 /* Misc. defines */
-#define CANCEL         &kp K_CANCEL             // cancel caps-word, num-word and smart-mouse
-#define HYPER(keycode) &kp LC(LA(LS(LG(keycode))))
 
+// cancel caps-word, num-word and smart-mouse by sending a fake "cancel" key that does nothing, but is not whitelisted on any smart layer
+#define CANCEL         &kp K_CANCEL
+
+#define HYPER(keycode)  LC(LA(LG(LS(keycode))))
+#define MY_MEH(keycode) LC(LA(LG(keycode)))       // different from "regular" meh which does CTRL-ALT-SHIFT instead of CTRL-ALT-GUI
+// hyper on hold, my meh on tap
+#define HYPERMEH(keycode) &hyperhold keycode MY_MEH(keycode)
+
+// include combos last since they require some macros/behaviors set up above
 #include "combos.dtsi"  // requires layer aliases and some other macros
 
 /************************************************************************************/
@@ -220,7 +244,7 @@ ZMK_LAYER(navigation,
 //╭─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────╮
     _X_           &kp LG(X)     &kp LG(Z)     _X_           &kp LG(C)     &kp LG(V)       &kp PG_UP     &kp HOME      &kp PG_DN     &kp END       _X_           ___
 //╰─────────────┼─────────────┼─────────────┴─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┴─────────────┴─────────────╯
-                                              ___           ___           ___             ___           &tog NAV      ___
+                                              ___           &mt LSFT SPC  ___             ___           &tog NAV      ___
 //                                          ╰─────────────┴─────────────┴─────────────╯ ╰─────────────┴─────────────┴─────────────╯
 )
 
@@ -238,25 +262,25 @@ ZMK_LAYER(numbers,
 
 ZMK_LAYER(shortcuts,
 //              ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮ ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
-                  &kp LG(Q)     ASCMD(W)      &kp LC(LS(TAB)) &kp LC(TAB) CMD_SFT_G_F     &kp C_BRI_UP  _X_           &kp C_VOL_UP  _X_           _X_
+                  &kp LG(Q)     ASCMD(W)      &kp LC(LS(TAB)) &kp LC(TAB) CMD_SFT_G_F     _X_           _X_           _X_           _X_           _X_
 //              ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
-                  ASCMD(A)      ASCMD(S)      ASCMD(R)      ASCMD(T)      CMD_G_F         &kp C_BRI_DN  &kp C_PREV    &kp C_VOL_DN  &kp C_NEXT    _X_
+                  ASCMD(A)      ASCMD(S)      ASCMD(R)      ASCMD(T)      CMD_G_F         _X_           _X_           _X_           _X_           _X_
 //╭─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────╮
-    _X_           ASCMD(X)      ASCMD(Z)      CMD_LR_BRKT   ASCMD(C)      ASCMD(V)        _X_           _X_           &kp C_MUTE    _X_           _X_           _X_
+    CMD_LR_BRKT   ASCMD(X)      ASCMD(Z)      ASCMD(K)      ASCMD(C)      ASCMD(V)        _X_           _X_           _X_           _X_           _X_           _X_
 //╰─────────────┼─────────────┼─────────────┴─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┴─────────────┴─────────────╯
-                                              _X_           &kp CAPSLOCK  _X_             _X_           _X_           &kp C_PP
+                                              &mo SHRT      &kp CAPSLOCK  _X_             _X_           _X_           _X_
 //                                          ╰─────────────┴─────────────┴─────────────╯ ╰─────────────┴─────────────┴─────────────╯
 )
 
 ZMK_LAYER(windows,
 //              ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮ ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
-                  HYPER(F9)     HYPER(W)      &kp LS(TAB)   &swapper      ASCMD(GRAVE)    _X_           _X_           _X_           _X_           _X_
+                  HYPERMEH(F9)  HYPERMEH(W)   &kp LS(TAB)   &swapper      ASCMD(GRAVE)    &kp C_BRI_UP  _X_           &kp C_VOL_UP  _X_           &bt BT_SEL 2
 //              ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
-                  HYPER(A)      HYPER(S)      HYPER(R)      HYPER(T)      HYPER(G)        &bt BT_CLR    _X_           _X_           _X_           _X_
+                  HYPERMEH(A)   HYPERMEH(S)   HYPERMEH(R)   HYPERMEH(T)   HYPERMEH(G)     &kp C_BRI_DN  &kp C_PREV    &kp C_VOL_DN  &kp C_NEXT    &bt BT_SEL 1
 //╭─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────╮
-    HYPER(F10)    HYPER(X)      HYPER(Z)      HYPER(K)      HYPER(C)      HYPER(V)        _X_           &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  _X_           _X_
+    HYPERMEH(F10) HYPERMEH(X)   HYPERMEH(Z)   HYPERMEH(K)   HYPERMEH(C)   HYPERMEH(V)     _X_           _X_           &kp C_MUTE    _X_           &bt BT_SEL 0  &bt BT_CLR
 //╰─────────────┼─────────────┼─────────────┴─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┴─────────────┴─────────────╯
-                                              &bootloader   &sys_reset    _X_             &out OUT_TOG  &sys_reset    &bootloader
+                                              _X_           _X_          &mo WIN          &kp C_PP      _X_           _X_
 //                                          ╰─────────────┴─────────────┴─────────────╯ ╰─────────────┴─────────────┴─────────────╯
 )
 
