@@ -13,20 +13,25 @@
 
 #define COMBO_TERM_FAST 22
 #define COMBO_TERM_SLOW 30
+#define COMBO_TERM_CROSSHAND 40
 
 // make homerow combos tap-only (so HRMs can be chorded instantaneously)
 #define HMC_ESC   &hml LS(LALT) ESC
 #define HMC_TAB   &hml LS(LGUI) TAB
 #define HMC_MINUS &hmr RS(RGUI) MINUS
 #define HMC_BSPC  &hmr RS(RALT) BSPC
+#define HMC_RET   &hmr RG(RS(RALT)) RET
 
+// some one-shot open/close braces macros
 SIMPLE_MACRO(lrbkt, &kp LBKT &kp RBKT)
 SIMPLE_MACRO(lrbrc, &kp LBRC &kp RBRC)
 SIMPLE_MACRO(lrpar, &kp LPAR &kp RPAR)
 SIMPLE_MACRO(ltgt,  &kp LT &kp GT)
 
+// the EURO sign
 #define EURO &kp LS(LA(N4))
 
+// hold macros for some special symbols
 MACROHOLD(equal, &kp SPACE &kp EQUAL &kp EQUAL &kp SPACE)
 #define EQUALHOLD &macrohold_equal 0 EQUAL
 MACROHOLD(amps, &kp SPACE &kp AMPS  &kp AMPS  &kp SPACE)
@@ -35,7 +40,9 @@ MACROHOLD(pipe, &kp SPACE &kp PIPE  &kp PIPE  &kp SPACE)
 #define PIPEHOLD &macrohold_pipe 0 PIPE
 
 /*********************************************************/
-/* Horizontal combos - left hand */
+// Horizontal combos
+
+// Left hand
 ZMK_COMBO(lbrc,  &kp LBRC,      LT3 LT2,     ALL, COMBO_TERM_FAST)
 ZMK_COMBO(rbrc,  &kp RBRC,      LT2 LT1,     ALL, COMBO_TERM_FAST)
 ZMK_COMBO(lrbrc, &lrbrc,        LT3 LT1,     ALL, COMBO_TERM_FAST)
@@ -47,19 +54,23 @@ ZMK_COMBO(lbkt,  &kp LBKT,      LB3 LB2,     ALL, COMBO_TERM_FAST)
 ZMK_COMBO(rbkt,  &kp RBKT,      LB2 LB1,     ALL, COMBO_TERM_FAST)
 ZMK_COMBO(lrbkt, &lrbkt,        LB3 LB1,     ALL, COMBO_TERM_FAST)
 
-/* Horizontal combos - right hand */
+// Right hand
 ZMK_COMBO(lpar,  &kp LPAR,      RT1 RT2,     ALL, COMBO_TERM_FAST)
 ZMK_COMBO(rpar,  &kp RPAR,      RT2 RT3,     ALL, COMBO_TERM_FAST)
 ZMK_COMBO(lrpar, &lrpar,        RT1 RT3,     ALL, COMBO_TERM_FAST)
 
 ZMK_COMBO(minus, HMC_MINUS,     RM1 RM2,     ALL, COMBO_TERM_FAST)
 ZMK_COMBO(bspc,  HMC_BSPC,      RM2 RM3,     ALL, COMBO_TERM_FAST)
+ZMK_COMBO(ret,   HMC_RET,       RM1 RM2 RM3, ALL, COMBO_TERM_FAST)
 
 ZMK_COMBO(lt,    &kp LT,        RB1 RB2,     ALL, COMBO_TERM_FAST)
 ZMK_COMBO(gt,    &kp GT,        RB2 RB3,     ALL, COMBO_TERM_FAST)
 ZMK_COMBO(ltgt,  &ltgt,         RB1 RB3,     ALL, COMBO_TERM_FAST)
 
-/* Vertical combos - left hand */
+/*********************************************************/
+// Vertical combos
+
+// Left hand
 ZMK_COMBO(at,    &kp AT,        LT3 LM3,     ALL, COMBO_TERM_SLOW)
 ZMK_COMBO(hash,  &kp HASH,      LT2 LM2,     ALL, COMBO_TERM_SLOW)
 ZMK_COMBO(dllr,  &kp DLLR,      LT1 LM1,     ALL, COMBO_TERM_SLOW)
@@ -70,7 +81,7 @@ ZMK_COMBO(bslh,  &kp BSLH,      LM2 LB2,     ALL, COMBO_TERM_SLOW)
 ZMK_COMBO(euro,  EURO,          LM1 LB1,     ALL, COMBO_TERM_SLOW)
 ZMK_COMBO(tilde, &kp TILDE,     LM0 LB0,     ALL, COMBO_TERM_SLOW)
 
-/* Vertical combos - right hand */
+// Right hand
 ZMK_COMBO(caret, &kp CARET,     RT0 RM0,     ALL, COMBO_TERM_SLOW)
 ZMK_COMBO(amps,  AMPSHOLD,      RT1 RM1,     ALL, COMBO_TERM_SLOW)
 ZMK_COMBO(star,  &kp STAR,      RT2 RM2,     ALL, COMBO_TERM_SLOW)
@@ -81,7 +92,10 @@ ZMK_COMBO(pipe,  PIPEHOLD,      RM1 RB1,     ALL, COMBO_TERM_SLOW)
 ZMK_COMBO(fslh,  &kp FSLH,      RM2 RB2,     ALL, COMBO_TERM_SLOW)
 ZMK_COMBO(plus,  &kp PLUS,      RM3 RB3,     ALL, COMBO_TERM_SLOW)
 
-/* Thumb combos - left hand */
+/*********************************************************/
+// Thumb combos
+
+// Left hand
 ZMK_COMBO(f1,    &kp F1,        LH0 LB3,     ALL, COMBO_TERM_SLOW)
 ZMK_COMBO(f2,    &kp F2,        LH0 LB2,     ALL, COMBO_TERM_SLOW)
 ZMK_COMBO(f3,    &kp F3,        LH0 LB1,     ALL, COMBO_TERM_SLOW)
@@ -95,7 +109,7 @@ ZMK_COMBO(f10,   &kp F10,       LH0 LB0,     ALL, COMBO_TERM_SLOW)
 ZMK_COMBO(f11,   &kp F11,       LH0 LM0,     ALL, COMBO_TERM_SLOW)
 ZMK_COMBO(f12,   &kp F12,       LH0 LT0,     ALL, COMBO_TERM_SLOW)
 
-/* Thumb combos - right hand */
+// Right hand
 ZMK_COMBO(n1,    &kp N1,        RH0 RB1,     ALL, COMBO_TERM_SLOW)
 ZMK_COMBO(n2,    &kp N2,        RH0 RB2,     ALL, COMBO_TERM_SLOW)
 ZMK_COMBO(n3,    &kp N3,        RH0 RB3,     ALL, COMBO_TERM_SLOW)
@@ -107,5 +121,6 @@ ZMK_COMBO(n8,    &kp N8,        RH0 RT2,     ALL, COMBO_TERM_SLOW)
 ZMK_COMBO(n9,    &kp N9,        RH0 RT3,     ALL, COMBO_TERM_SLOW)
 ZMK_COMBO(n0,    &kp N0,        RH0 RM0,     ALL, COMBO_TERM_SLOW)
 
-/* Thumb combos - both hands */
-ZMK_COMBO(nav,   &tog NAV,      LH1 RH1,     ALL, COMBO_TERM_SLOW)
+/*********************************************************/
+// Cross hand combos
+ZMK_COMBO(nav,   &tog NAV,      LH1 RH1,     ALL, COMBO_TERM_CROSSHAND)

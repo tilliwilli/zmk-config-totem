@@ -36,7 +36,7 @@
 #define QUICK_TAP_MS 175
 
 /************************************************************************************/
-/* General behavior configurations */
+// OOTB behavior configurations
 
 &sk {  // sticky-key config
     release-after-ms = <900>;
@@ -47,11 +47,16 @@
     ignore-modifiers;          // allow chording sticky mods & layers
 };
 
-&lt {  // layer-tap config
+&lt {  // regular layer-tap config
     flavor = "balanced";
     tapping-term-ms = <200>;
     quick-tap-ms = <QUICK_TAP_MS>;
 };
+ZMK_BEHAVIOR(lt_wo_qt, hold_tap, // layer-tap config w/o quick tap
+    flavor = "balanced";
+    tapping-term-ms = <200>;
+    bindings = <&mo>, <&kp>;
+)
 
 &mt {  // mod-tap config
     flavor = "balanced";
@@ -59,7 +64,7 @@
     quick-tap-ms = <QUICK_TAP_MS>;
 };
 
-/////////////////////////////////////////////////////
+/************************************************************************************/
 // some general macro defines
 
 #define SIMPLE_MACRO(NAME, KEYPRESSES) \
@@ -77,7 +82,7 @@
     )
 
 /************************************************************************************/
-/* Homerow mods */
+// Homerow mods
 
 #define KEYS_L LT0 LT1 LT2 LT3 LT4 LM0 LM1 LM2 LM3 LM4 LB0 LB1 LB2 LB3 LB4 LB5  // left hand
 #define KEYS_R RT0 RT1 RT2 RT3 RT4 RM0 RM1 RM2 RM3 RM4 RB0 RB1 RB2 RB3 RB4 RB5  // right hand
@@ -98,7 +103,7 @@ MAKE_HRM(hml, &kp, &kp, KEYS_R THUMBS)  // left-hand HRMs
 MAKE_HRM(hmr, &kp, &kp, KEYS_L THUMBS)  // right-hand HRMs
 
 /************************************************************************************/
-/* Caps-word, num-word and smart-mouse */
+// Smart layers: Caps-word, Num-word and Smart-mouse
 
 // tap/hold: shift | shift + tap (by using the HRM shift): caps-word
 ZMK_BEHAVIOR(smart_shft, mod_morph,
@@ -132,7 +137,7 @@ ZMK_BEHAVIOR(smart_num, hold_tap,
 // )
 
 /************************************************************************************/
-/* Other/my custom behaviors */
+// Misc. custom behaviors
 
 // Alt+Tab swapper, requires PR #1366
 ZMK_BEHAVIOR(swapper, tri_state,
@@ -160,8 +165,15 @@ ZMK_BEHAVIOR(qexcl, mod_morph,
     bindings = <&kp QMARK>, <EXCLHOLD>;
 )
 
-////////////////////////////////////////////////////////////////////////////////////////
-// hold-tap with single taps of modified keys on hold (no repeat on hold)
+// RSHIFT-Space (with right shift!) outputs regular space (with repeat and without shift), but there is no quick-tap repeat on regular tap; left shift space outputs exactly that: shift-space
+ZMK_BEHAVIOR(spc_nav, mod_morph,
+    mods = <(MOD_RSFT)>;
+    bindings = <&lt_wo_qt NAV SPACE>, <&kp SPACE>;
+)
+
+/************************************************************************************/
+// Hold-tap with single taps of modified keys on hold (no repeat on hold)
+
 ZMK_BEHAVIOR(cmdtap, macro_one_param,
     bindings = <&macro_press &kp LGUI>
              , <&macro_param_1to1>
@@ -208,10 +220,12 @@ ZMK_BEHAVIOR(hyperhold, hold_tap,
 #define CMD_LR_BRKT  &cmdhold RBKT LG(LBKT)
 
 /************************************************************************************/
-/* Misc. defines */
+// Misc. defines
 
-// cancel caps-word, num-word and smart-mouse by sending a fake "cancel" key that does nothing, but is not whitelisted on any smart layer
-#define CANCEL         &kp K_CANCEL
+// cancel caps-word, num-word and smart-mouse by sending a fake "cancel" key that does nothing, but is not whitelisted on any smart layer; also remove all layers
+ZMK_BEHAVIOR(cancel_all, macro,
+    bindings = <&kp K_CANCEL &to DEF>;
+)
 
 #define HYPER(keycode)  LC(LA(LG(LS(keycode))))
 #define MY_MEH(keycode) LC(LA(LG(keycode)))       // different from "regular" meh which does CTRL-ALT-SHIFT instead of CTRL-ALT-GUI
@@ -222,7 +236,7 @@ ZMK_BEHAVIOR(hyperhold, hold_tap,
 #include "combos.dtsi"  // requires layer aliases and some other macros
 
 /************************************************************************************/
-/* The actual keymap layers */
+// The actual keymap layers
 
 ZMK_LAYER(base,
 //              ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮ ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
@@ -230,9 +244,9 @@ ZMK_LAYER(base,
 //              ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
                   &hml LCTL A   &hml LALT S   &hml LSFT R   &hml LGUI T   &kp G           &kp F         &hmr RGUI N   &hmr RSHFT E  &hmr RALT I   &hmr RCTRL O
 //╭─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────╮
-    &kp BSPC      &kp X         &kp Z         &kp K         &kp C         &kp V           &kp B         &kp H         &comma_morph  &dot_morph    &qexcl        &key_repeat
+    &kp Q         &kp X         &kp Z         &kp K         &kp C         &kp V           &kp B         &kp H         &comma_morph  &dot_morph    &qexcl        &kp SQT
 //╰─────────────┼─────────────┼─────────────┴─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┴─────────────┴─────────────╯
-                                              &lt SHRT ESC  &smart_shft   &lt WIN RET     SMART_NUM     &lt NAV SPC   &kp BSPC
+                                              &lt SHRT ESC  &smart_shft   &lt WIN RET     SMART_NUM     &spc_nav      &kp BSPC
 //                                          ╰─────────────┴─────────────┴─────────────╯ ╰─────────────┴─────────────┴─────────────╯
 )
 
@@ -242,21 +256,21 @@ ZMK_LAYER(navigation,
 //              ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
                   &kp LCTL      &kp LALT      &kp LSFT      &kp LGUI      CMD_G_F         &kp LA(LEFT)  &kp LEFT      &kp DOWN      &kp RIGHT     &kp LA(RIGHT)
 //╭─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────╮
-    _X_           &kp LG(X)     &kp LG(Z)     _X_           &kp LG(C)     &kp LG(V)       &kp PG_UP     &kp HOME      &kp PG_DN     &kp END       _X_           ___
+    _X_           &kp LG(X)     &kp LG(Z)     _X_           &kp LG(C)     &kp LG(V)       &kp PG_UP     &kp HOME      &kp PG_DN     &kp END       _X_           &cancel_all
 //╰─────────────┼─────────────┼─────────────┴─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┴─────────────┴─────────────╯
-                                              ___           &mt LSFT SPC  ___             ___           &tog NAV      ___
+                                              ___           ___           ___             ___           ___           ___
 //                                          ╰─────────────┴─────────────┴─────────────╯ ╰─────────────┴─────────────┴─────────────╯
 )
 
 ZMK_LAYER(numbers,
 //              ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮ ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
-                  &kp F12       &kp F7        &kp F8        &kp F9        &kp F12         _X_           &kp N7        &kp N8        &kp N9        _X_
+                  &kp F12       &kp F7        &kp F8        &kp F9        &kp F12         &kp DOT       &kp N7        &kp N8        &kp N9        _X_
 //              ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
                   &hml LCTL F11 &hml LALT F4  &hml LSFT F5  &hml LGUI F6  &kp F11         &kp N0        &hmr RGUI N4  &hmr RSHFT N5 &hmr RALT N6  &hmr RCTRL DOT
 //╭─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────╮
-    ___           &kp F10       &kp F1        &kp F2        &kp F3        &kp F10         _X_           &kp N1        &kp N2        &kp N3        &kp COMMA     ___
+    ___           &kp F10       &kp F1        &kp F2        &kp F3        &kp F10         &kp COMMA     &kp N1        &kp N2        &kp N3        &kp COMMA     ___
 //╰─────────────┼─────────────┼─────────────┴─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┴─────────────┴─────────────╯
-                                              ___           ___           ___             CANCEL        ___           ___
+                                              ___           ___           ___             ___           ___           ___
 //                                          ╰─────────────┴─────────────┴─────────────╯ ╰─────────────┴─────────────┴─────────────╯
 )
 
@@ -266,9 +280,9 @@ ZMK_LAYER(shortcuts,
 //              ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
                   ASCMD(A)      ASCMD(S)      ASCMD(R)      ASCMD(T)      CMD_G_F         _X_           _X_           _X_           _X_           _X_
 //╭─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────╮
-    CMD_LR_BRKT   ASCMD(X)      ASCMD(Z)      ASCMD(K)      ASCMD(C)      ASCMD(V)        _X_           _X_           _X_           _X_           _X_           _X_
+    CMD_LR_BRKT   ASCMD(X)      ASCMD(Z)      ASCMD(K)      ASCMD(C)      ASCMD(V)        _X_           _X_           _X_           _X_           _X_           ___
 //╰─────────────┼─────────────┼─────────────┴─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┴─────────────┴─────────────╯
-                                              &mo SHRT      &kp CAPSLOCK  _X_             _X_           _X_           _X_
+                                              &mo SHRT      &kp CAPSLOCK  _X_             _X_           &kp LG(SPC)   ___
 //                                          ╰─────────────┴─────────────┴─────────────╯ ╰─────────────┴─────────────┴─────────────╯
 )
 
