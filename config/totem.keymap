@@ -21,10 +21,10 @@
 
 /* Layers aliases */
 #define DEF  0
-#define NAV  1
-#define NUM  2
-#define SHRT 3
-#define WIN  4
+#define NUM  1
+#define SHRT 2
+#define WIN  3
+#define NAV  4
 
 // #include "mouse.dtsi"
 
@@ -110,23 +110,34 @@ ZMK_BEHAVIOR(smart_shft, mod_morph,
     mods = <(MOD_LSFT|MOD_RSFT)>;
     bindings = <&kp LSFT>, <&caps_word>;
 )
-// &caps_word {  // mods deactivate caps-word, requires PR #1451
-//     /delete-property/ ignore-modifiers;
-// };
+&caps_word {
+    continue-list = <UNDERSCORE MINUS BACKSPACE DELETE LEFT RIGHT>;
+};
 
 
 // tap: num-word | hold: num-layer
-#define SMART_NUM &smart_num NUM 0
-ZMK_BEHAVIOR(smart_num, hold_tap,
+// num-word requires PR #1451; unused for now since it does not allow another &mo layer to overlay correctly, which prevents NAV layer usage…
+
+// #define SMART_NUM &smart_num NUM 0
+// ZMK_BEHAVIOR(smart_num, hold_tap,
+//     flavor = "balanced";
+//     tapping-term-ms = <200>;
+//     bindings = <&mo>, <&num_word>;
+// )
+// &num_word {
+//     layers = <NUM>;
+//     continue-list = <BSPC DEL DOT COMMA PLUS MINUS STAR FSLH EQUAL LPAR RPAR RIGHT LEFT F1 F2 F3 F4 F5 F6 F7 F8 F9 F10 F11 F12>;
+//     ignore-modifiers;
+// };
+
+// using a regular tap/hold layer switch to the numbers layer in the meanwhile…
+#define SMART_NUM &mo_tog NUM NUM
+ZMK_BEHAVIOR(mo_tog, hold_tap,
     flavor = "balanced";
     tapping-term-ms = <200>;
-    bindings = <&mo>, <&num_word>;
+    bindings = <&mo>, <&tog>;
 )
-&num_word {  // num-word, requires PR #1451
-    layers = <NUM>;
-    continue-list = <BSPC DEL DOT COMMA PLUS MINUS STAR FSLH EQUAL LPAR RPAR RIGHT LEFT F1 F2 F3 F4 F5 F6 F7 F8 F9 F10 F11 F12>;
-    ignore-modifiers;
-};
+
 
 
 // smart-mouse, requires PR #1366
@@ -165,7 +176,10 @@ ZMK_BEHAVIOR(qexcl, mod_morph,
     bindings = <&kp QMARK>, <EXCLHOLD>;
 )
 
-// RSHIFT-Space (with right shift!) outputs regular space (with repeat and without shift), but there is no quick-tap repeat on regular tap; left shift space outputs exactly that: shift-space
+// SPACE with navigation layer on hold
+// note: there is no quick-tap repeat on regular tap-hold to ease adding a space while navigating around (i.e. hopping in and out of the navigation layer)
+// however, RSHIFT-Space (with right shift!) directly outputs a regular space keypress (without shift and with repeat) to easily add repeated spaces without needing to hammer the key
+// left shift space (when tapped) outputs exactly that: shift-space
 ZMK_BEHAVIOR(spc_nav, mod_morph,
     mods = <(MOD_RSFT)>;
     bindings = <&lt_wo_qt NAV SPACE>, <&kp SPACE>;
@@ -250,39 +264,27 @@ ZMK_LAYER(base,
 //                                          ╰─────────────┴─────────────┴─────────────╯ ╰─────────────┴─────────────┴─────────────╯
 )
 
-ZMK_LAYER(navigation,
-//              ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮ ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
-                  _X_           &kp LG(W)     &kp LG(LS(W)) _X_           CMD_SFT_G_F     &kp LA(BSPC)  &kp BSPC      &kp UP        &kp DEL       &kp LA(DEL)
-//              ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
-                  &kp LCTL      &kp LALT      &kp LSFT      &kp LGUI      CMD_G_F         &kp LA(LEFT)  &kp LEFT      &kp DOWN      &kp RIGHT     &kp LA(RIGHT)
-//╭─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────╮
-    _X_           &kp LG(X)     &kp LG(Z)     _X_           &kp LG(C)     &kp LG(V)       &kp PG_UP     &kp HOME      &kp PG_DN     &kp END       _X_           &cancel_all
-//╰─────────────┼─────────────┼─────────────┴─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┴─────────────┴─────────────╯
-                                              ___           ___           ___             ___           ___           ___
-//                                          ╰─────────────┴─────────────┴─────────────╯ ╰─────────────┴─────────────┴─────────────╯
-)
-
 ZMK_LAYER(numbers,
 //              ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮ ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
                   &kp F12       &kp F7        &kp F8        &kp F9        &kp F12         &kp DOT       &kp N7        &kp N8        &kp N9        _X_
 //              ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
-                  &hml LCTL F11 &hml LALT F4  &hml LSFT F5  &hml LGUI F6  &kp F11         &kp N0        &hmr RGUI N4  &hmr RSHFT N5 &hmr RALT N6  &hmr RCTRL DOT
+                  &hml LCTL F11 &hml LALT F4  &hml LSFT F5  &hml LGUI F6  &kp F11         &kp N0        &hmr RGUI N4  &hmr RSHFT N5 &hmr RALT N6  &kp RCTL
 //╭─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────╮
-    ___           &kp F10       &kp F1        &kp F2        &kp F3        &kp F10         &kp COMMA     &kp N1        &kp N2        &kp N3        &kp COMMA     ___
+    &cancel_all   &kp F10       &kp F1        &kp F2        &kp F3        &kp F10         &kp COMMA     &kp N1        &kp N2        &kp N3        _X_           &cancel_all
 //╰─────────────┼─────────────┼─────────────┴─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┴─────────────┴─────────────╯
-                                              ___           ___           ___             ___           ___           ___
+                                              ___           ___           ___             &kp N0        &lt NAV COMMA &kp DOT
 //                                          ╰─────────────┴─────────────┴─────────────╯ ╰─────────────┴─────────────┴─────────────╯
 )
 
 ZMK_LAYER(shortcuts,
 //              ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮ ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
-                  &kp LG(Q)     ASCMD(W)      &kp LC(LS(TAB)) &kp LC(TAB) CMD_SFT_G_F     _X_           _X_           _X_           _X_           _X_
+                  &kp LG(Q)     &kp LG(W)     &kp LC(LS(TAB)) &kp LC(TAB) CMD_SFT_G_F     &kp DOT       &kp N7        &kp N8        &kp N9        _X_
 //              ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
-                  ASCMD(A)      ASCMD(S)      ASCMD(R)      ASCMD(T)      CMD_G_F         _X_           _X_           _X_           _X_           _X_
+                  &mt LCTL LG(A) &mt LALT LG(S) &mt LSFT LG(R) &mt LGUI LG(T) CMD_G_F     &kp N0        &kp N4        &kp N5        &kp N6        _X_
 //╭─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────╮
-    CMD_LR_BRKT   ASCMD(X)      ASCMD(Z)      ASCMD(K)      ASCMD(C)      ASCMD(V)        _X_           _X_           _X_           _X_           _X_           ___
+    CMD_LR_BRKT   &kp LG(X)     &kp LG(Z)     &kp LG(K)     &kp LG(C)     &kp LG(V)       &kp COMMA     &kp N1        &kp N2        &kp N3        _X_           _X_
 //╰─────────────┼─────────────┼─────────────┴─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┴─────────────┴─────────────╯
-                                              &mo SHRT      &kp CAPSLOCK  _X_             _X_           &kp LG(SPC)   ___
+                                              &mo SHRT      &kp CAPSLOCK  _X_             &kp N0        &lt NAV COMMA &kp DOT
 //                                          ╰─────────────┴─────────────┴─────────────╯ ╰─────────────┴─────────────┴─────────────╯
 )
 
@@ -295,6 +297,18 @@ ZMK_LAYER(windows,
     HYPERMEH(F10) HYPERMEH(X)   HYPERMEH(Z)   HYPERMEH(K)   HYPERMEH(C)   HYPERMEH(V)     _X_           _X_           &kp C_MUTE    _X_           &bt BT_SEL 0  &bt BT_CLR
 //╰─────────────┼─────────────┼─────────────┴─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┴─────────────┴─────────────╯
                                               _X_           _X_          &mo WIN          &kp C_PP      _X_           _X_
+//                                          ╰─────────────┴─────────────┴─────────────╯ ╰─────────────┴─────────────┴─────────────╯
+)
+
+ZMK_LAYER(navigation,
+//              ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮ ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
+                  _X_           &kp LG(W)     &kp LG(LS(W)) _X_           CMD_SFT_G_F     &kp LA(BSPC)  &kp BSPC      &kp UP        &kp DEL       &kp LA(DEL)
+//              ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
+                  &kp LCTL      &kp LALT      &kp LSFT      &kp LGUI      CMD_G_F         &kp LA(LEFT)  &kp LEFT      &kp DOWN      &kp RIGHT     &kp LA(RIGHT)
+//╭─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────╮
+    _X_           &kp LG(X)     &kp LG(Z)     _X_           &kp LG(C)     &kp LG(V)       &kp PG_UP     &kp HOME      &kp PG_DN     &kp END       _X_           &cancel_all
+//╰─────────────┼─────────────┼─────────────┴─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┴─────────────┴─────────────╯
+                                              &kp ESC       ___           &kp RET         _X_           &kp SPACE     _X_
 //                                          ╰─────────────┴─────────────┴─────────────╯ ╰─────────────┴─────────────┴─────────────╯
 )
 
