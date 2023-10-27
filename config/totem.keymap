@@ -170,12 +170,12 @@ ZMK_BEHAVIOR(dot_morph, mod_morph,
     bindings = <&kp DOT>, <&kp COLON>;
 )
 
-// tap: question mark | shift + tap: exclamation mark (with ' != ' on hold)
+// tap: question mark | hold: navigation layer | shift + tap: exclamation mark (with ' != ' on hold)
 MACROHOLD(excl, &kp SPACE &kp EXCL &kp EQUAL &kp SPACE)
 #define EXCLHOLD &macrohold_excl 0 EXCL
-ZMK_BEHAVIOR(qexcl, mod_morph,
+ZMK_BEHAVIOR(qexclnav, mod_morph,
     mods = <(MOD_LSFT|MOD_RSFT)>;
-    bindings = <&kp QMARK>, <EXCLHOLD>;
+    bindings = <&lt NAV QMARK>, <EXCLHOLD>;
 )
 
 // SPACE with navigation layer on hold
@@ -263,7 +263,7 @@ ZMK_LAYER(base,
 //              ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
                   &hml LCTL A   &hml LALT S   &hml LSFT R   &hml LGUI T   &kp G           &kp F         &hmr RGUI N   &hmr RSFT E   &hmr RALT I   &hmr RCTL O
 //╭─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────╮
-    &kp Q         &lt NAVL X    &kp Z         &kp K         &kp C         &kp V           &kp B         &kp H         &comma_morph  &dot_morph    &qexcl        &kp SQT
+    &kp Q         &lt NAVL X    &kp Z         &kp K         &kp C         &kp V           &kp B         &kp H         &comma_morph  &dot_morph    &qexclnav     &kp SQT
 //╰─────────────┼─────────────┼─────────────┴─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┴─────────────┴─────────────╯
                                               &lt SHRT ESC  &lt NAV BSPC  &lt WIN DEL     &lt FUN RET   &lt NUM SPACE &mt K_CANCEL TAB
 //                                          ╰─────────────┴─────────────┴─────────────╯ ╰─────────────┴─────────────┴─────────────╯
@@ -325,7 +325,7 @@ ZMK_LAYER(navigation_left,
 //╭─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────╮
     _X_           &mo NAVL      &kp HOME      _X_           &kp END       &kp PG_DN       _X_           _X_           _X_           _X_           _X_           _X_
 //╰─────────────┼─────────────┼─────────────┴─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┴─────────────┴─────────────╯
-                                              _X_           _X_           _X_             _X_           _X_           _X_
+                                              &kp TAB       &kp SPACE     &kp RET         _X_           _X_           _X_
 //                                          ╰─────────────┴─────────────┴─────────────╯ ╰─────────────┴─────────────┴─────────────╯
 )
 
@@ -335,7 +335,7 @@ ZMK_LAYER(navigation,
 //              ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
                   &kp LCTL      &kp LALT      &kp LSFT      &kp LGUI      CMD_G_F         &kp PG_UP     &kp LEFT      &kp DOWN      &kp RIGHT     _X_
 //╭─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────╮
-    _X_           &kp LG(X)     &kp LG(Z)     _X_           &kp LG(C)     &kp LG(V)       &kp PG_DN     &kp HOME      _X_           &kp END       _X_           &cancel_all
+    _X_           &kp LG(X)     &kp LG(Z)     _X_           &kp LG(C)     &kp LG(V)       &kp PG_DN     &kp HOME      _X_           &kp END       &mo NAV       &cancel_all
 //╰─────────────┼─────────────┼─────────────┴─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┴─────────────┴─────────────╯
                                               _X_           &mo NAV       _X_             &kp RET       &kp SPACE     &kp TAB
 //                                          ╰─────────────┴─────────────┴─────────────╯ ╰─────────────┴─────────────┴─────────────╯
