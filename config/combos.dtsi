@@ -16,16 +16,19 @@
 #define COMBO_TERM_CROSSHAND 40
 
 // make homerow combos tap-only (so HRMs can be chorded instantaneously)
-#define HMC_TAB   &hml LA(LSFT) TAB
-#define HMC_ESC   &hml LG(LSFT) ESC
-#define HMC_BSPC  &hmr RG(RSFT) BSPC
-#define HMC_RET   &hmr RA(RSFT) RET
+#define HMC_AE    &hml LC(LALT) LA(A)
+#define HMC_SZ    &hml LA(LSFT) LA(S)
+#define HMC_DQT   &hml LG(LSFT) DQT
+
+#define HMC_SQT   &hmr RG(RSFT) SQT
+#define HMC_UE    &hmr RA(RSFT) LA(U)
+#define HMC_OE    &hmr RC(RALT) LA(O)
 
 // some one-shot open/close braces macros
-SIMPLE_MACRO(lrbkt, &kp LBKT &kp RBKT)
-SIMPLE_MACRO(lrbrc, &kp LBRC &kp RBRC)
-SIMPLE_MACRO(lrpar, &kp LPAR &kp RPAR)
-SIMPLE_MACRO(ltgt,  &kp LT &kp GT)
+// SIMPLE_MACRO(lrbkt, &kp LBKT &kp RBKT)
+// SIMPLE_MACRO(lrbrc, &kp LBRC &kp RBRC)
+// SIMPLE_MACRO(lrpar, &kp LPAR &kp RPAR)
+// SIMPLE_MACRO(ltgt,  &kp LT &kp GT)
 
 // the EURO sign
 #define EURO &kp LS(LA(N4))
@@ -43,27 +46,29 @@ MACROHOLD(pipe, &kp SPACE &kp PIPE  &kp PIPE  &kp SPACE)
 
 // Left hand
 ZMK_COMBO(lbrc,  &kp LBRC,      LT3 LT2,     ALL, COMBO_TERM_FAST)
-ZMK_COMBO(rbrc,  &kp RBRC,      LT2 LT1,     ALL, COMBO_TERM_FAST)
-ZMK_COMBO(lrbrc, &lrbrc,        LT3 LT1,     ALL, COMBO_TERM_FAST)
+ZMK_COMBO(lpar,  &kp LPAR,      LT2 LT1,     ALL, COMBO_TERM_FAST)
+// ZMK_COMBO(lrbrc, &lrbrc,        LT3 LT1,     ALL, COMBO_TERM_FAST)
 
-ZMK_COMBO(tab,   HMC_TAB,       LM3 LM2,     ALL, COMBO_TERM_FAST)
-ZMK_COMBO(esc,   HMC_ESC,       LM2 LM1,     ALL, COMBO_TERM_FAST)
+ZMK_COMBO(ae,    HMC_AE,        LM4 LM3,     ALL, COMBO_TERM_FAST)
+ZMK_COMBO(sz,    HMC_SZ,        LM3 LM2,     ALL, COMBO_TERM_FAST)
+ZMK_COMBO(dqt,   HMC_DQT,       LM2 LM1,     ALL, COMBO_TERM_FAST)
 
-ZMK_COMBO(lbkt,  &kp LBKT,      LB3 LB2,     ALL, COMBO_TERM_FAST)
-ZMK_COMBO(rbkt,  &kp RBKT,      LB2 LB1,     ALL, COMBO_TERM_FAST)
-ZMK_COMBO(lrbkt, &lrbkt,        LB3 LB1,     ALL, COMBO_TERM_FAST)
+ZMK_COMBO(lt,    &kp LT,        LB3 LB2,     ALL, COMBO_TERM_FAST)
+ZMK_COMBO(lbkt,  &kp LBKT,      LB2 LB1,     ALL, COMBO_TERM_FAST)
+// ZMK_COMBO(lrbkt, &lrbkt,        LB3 LB1,     ALL, COMBO_TERM_FAST)
 
 // Right hand
-ZMK_COMBO(lpar,  &kp LPAR,      RT1 RT2,     ALL, COMBO_TERM_FAST)
-ZMK_COMBO(rpar,  &kp RPAR,      RT2 RT3,     ALL, COMBO_TERM_FAST)
-ZMK_COMBO(lrpar, &lrpar,        RT1 RT3,     ALL, COMBO_TERM_FAST)
+ZMK_COMBO(rpar,  &kp RPAR,      RT1 RT2,     ALL, COMBO_TERM_FAST)
+ZMK_COMBO(rbrc,  &kp RBRC,      RT2 RT3,     ALL, COMBO_TERM_FAST)
+// ZMK_COMBO(lrpar, &lrpar,        RT1 RT3,     ALL, COMBO_TERM_FAST)
 
-ZMK_COMBO(bspc,  HMC_BSPC,      RM1 RM2,     ALL, COMBO_TERM_FAST)
-ZMK_COMBO(ret,   HMC_RET,       RM2 RM3,     ALL, COMBO_TERM_FAST)
+ZMK_COMBO(sqt,   HMC_SQT,       RM1 RM2,     ALL, COMBO_TERM_FAST)
+ZMK_COMBO(ue,    HMC_UE,        RM2 RM3,     ALL, COMBO_TERM_FAST)
+ZMK_COMBO(oe,    HMC_OE,        RM3 RM4,     ALL, COMBO_TERM_FAST)
 
-ZMK_COMBO(lt,    &kp LT,        RB1 RB2,     ALL, COMBO_TERM_FAST)
+ZMK_COMBO(rbkt,  &kp RBKT,      RB1 RB2,     ALL, COMBO_TERM_FAST)
 ZMK_COMBO(gt,    &kp GT,        RB2 RB3,     ALL, COMBO_TERM_FAST)
-ZMK_COMBO(ltgt,  &ltgt,         RB1 RB3,     ALL, COMBO_TERM_FAST)
+// ZMK_COMBO(ltgt,  &ltgt,         RB1 RB3,     ALL, COMBO_TERM_FAST)
 
 /*********************************************************/
 // Vertical combos
@@ -94,31 +99,31 @@ ZMK_COMBO(pipe,  PIPEHOLD,      RM3 RB3,     ALL, COMBO_TERM_SLOW)
 // Thumb combos
 
 // Left hand
-ZMK_COMBO(f1,    &kp F1,        LH0 LB3,     ALL, COMBO_TERM_SLOW)
-ZMK_COMBO(f2,    &kp F2,        LH0 LB2,     ALL, COMBO_TERM_SLOW)
-ZMK_COMBO(f3,    &kp F3,        LH0 LB1,     ALL, COMBO_TERM_SLOW)
-ZMK_COMBO(f4,    &kp F4,        LH0 LM3,     ALL, COMBO_TERM_SLOW)
-ZMK_COMBO(f5,    &kp F5,        LH0 LM2,     ALL, COMBO_TERM_SLOW)
-ZMK_COMBO(f6,    &kp F6,        LH0 LM1,     ALL, COMBO_TERM_SLOW)
-ZMK_COMBO(f7,    &kp F7,        LH0 LT3,     ALL, COMBO_TERM_SLOW)
-ZMK_COMBO(f8,    &kp F8,        LH0 LT2,     ALL, COMBO_TERM_SLOW)
-ZMK_COMBO(f9,    &kp F9,        LH0 LT1,     ALL, COMBO_TERM_SLOW)
-ZMK_COMBO(f10,   &kp F10,       LH0 LB0,     ALL, COMBO_TERM_SLOW)
-ZMK_COMBO(f11,   &kp F11,       LH0 LM0,     ALL, COMBO_TERM_SLOW)
-ZMK_COMBO(f12,   &kp F12,       LH0 LT0,     ALL, COMBO_TERM_SLOW)
+// ZMK_COMBO(f1,    &kp F1,        LH0 LB3,     ALL, COMBO_TERM_SLOW)
+// ZMK_COMBO(f2,    &kp F2,        LH0 LB2,     ALL, COMBO_TERM_SLOW)
+// ZMK_COMBO(f3,    &kp F3,        LH0 LB1,     ALL, COMBO_TERM_SLOW)
+// ZMK_COMBO(f4,    &kp F4,        LH0 LM3,     ALL, COMBO_TERM_SLOW)
+// ZMK_COMBO(f5,    &kp F5,        LH0 LM2,     ALL, COMBO_TERM_SLOW)
+// ZMK_COMBO(f6,    &kp F6,        LH0 LM1,     ALL, COMBO_TERM_SLOW)
+// ZMK_COMBO(f7,    &kp F7,        LH0 LT3,     ALL, COMBO_TERM_SLOW)
+// ZMK_COMBO(f8,    &kp F8,        LH0 LT2,     ALL, COMBO_TERM_SLOW)
+// ZMK_COMBO(f9,    &kp F9,        LH0 LT1,     ALL, COMBO_TERM_SLOW)
+// ZMK_COMBO(f10,   &kp F10,       LH0 LB0,     ALL, COMBO_TERM_SLOW)
+// ZMK_COMBO(f11,   &kp F11,       LH0 LM0,     ALL, COMBO_TERM_SLOW)
+// ZMK_COMBO(f12,   &kp F12,       LH0 LT0,     ALL, COMBO_TERM_SLOW)
 
 // Right hand
-ZMK_COMBO(n1,    &kp N1,        RH0 RB1,     ALL, COMBO_TERM_SLOW)
-ZMK_COMBO(n2,    &kp N2,        RH0 RB2,     ALL, COMBO_TERM_SLOW)
-ZMK_COMBO(n3,    &kp N3,        RH0 RB3,     ALL, COMBO_TERM_SLOW)
-ZMK_COMBO(n4,    &kp N4,        RH0 RM1,     ALL, COMBO_TERM_SLOW)
-ZMK_COMBO(n5,    &kp N5,        RH0 RM2,     ALL, COMBO_TERM_SLOW)
-ZMK_COMBO(n6,    &kp N6,        RH0 RM3,     ALL, COMBO_TERM_SLOW)
-ZMK_COMBO(n7,    &kp N7,        RH0 RT1,     ALL, COMBO_TERM_SLOW)
-ZMK_COMBO(n8,    &kp N8,        RH0 RT2,     ALL, COMBO_TERM_SLOW)
-ZMK_COMBO(n9,    &kp N9,        RH0 RT3,     ALL, COMBO_TERM_SLOW)
-ZMK_COMBO(n0,    &kp N0,        RH0 RM0,     ALL, COMBO_TERM_SLOW)
+// ZMK_COMBO(n1,    &kp N1,        RH0 RB1,     ALL, COMBO_TERM_SLOW)
+// ZMK_COMBO(n2,    &kp N2,        RH0 RB2,     ALL, COMBO_TERM_SLOW)
+// ZMK_COMBO(n3,    &kp N3,        RH0 RB3,     ALL, COMBO_TERM_SLOW)
+// ZMK_COMBO(n4,    &kp N4,        RH0 RM1,     ALL, COMBO_TERM_SLOW)
+// ZMK_COMBO(n5,    &kp N5,        RH0 RM2,     ALL, COMBO_TERM_SLOW)
+// ZMK_COMBO(n6,    &kp N6,        RH0 RM3,     ALL, COMBO_TERM_SLOW)
+// ZMK_COMBO(n7,    &kp N7,        RH0 RT1,     ALL, COMBO_TERM_SLOW)
+// ZMK_COMBO(n8,    &kp N8,        RH0 RT2,     ALL, COMBO_TERM_SLOW)
+// ZMK_COMBO(n9,    &kp N9,        RH0 RT3,     ALL, COMBO_TERM_SLOW)
+// ZMK_COMBO(n0,    &kp N0,        RH0 RM0,     ALL, COMBO_TERM_SLOW)
 
 /*********************************************************/
 // Cross hand combos
-ZMK_COMBO(nav,   &tog NAV,      LH1 RH1,     ALL, COMBO_TERM_CROSSHAND)
+ZMK_COMBO(nav,   &caps_word,       LM2 RM2,     ALL, COMBO_TERM_CROSSHAND)
