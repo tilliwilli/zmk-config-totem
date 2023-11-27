@@ -22,13 +22,13 @@
 
 /* Layers aliases */
 #define DEF   0
-#define SYM   1
-#define NUMMEH 2
-#define HYPERFUN 3
-#define MEDIA 4
-#define NAVL  5
-#define NAV   6
-#define GAME  7
+#define GAME  1
+#define SYM   2
+#define NUMMEH 3
+#define HYPERFUN 4
+#define MEDIA 5
+#define NAVL  6
+#define NAV   7
 
 // #include "mouse.dtsi"
 
@@ -283,53 +283,55 @@ ZMK_BEHAVIOR(cancel_all, macro,
 #define COMBO_TERM_SLOW 30
 #define COMBO_TERM_CROSSHAND 40
 
+#define COMBO_LAYERS    DEF NUMMEH NAV
+
 /*********************************************************/
 // Horizontal combos
 
 // Left hand
-ZMK_COMBO(lbrc,  &kp LBRC,      LT3 LT2,     ALL, COMBO_TERM_FAST)
-ZMK_COMBO(lpar,  &kp LPAR,      LT2 LT1,     ALL, COMBO_TERM_FAST)
+ZMK_COMBO(lbrc,  &kp LBRC,      LT3 LT2,     COMBO_LAYERS, COMBO_TERM_FAST)
+ZMK_COMBO(lpar,  &kp LPAR,      LT2 LT1,     COMBO_LAYERS, COMBO_TERM_FAST)
 
-ZMK_COMBO(sz,    &hml LA(LSFT) LA(S), LM3 LM2, ALL, COMBO_TERM_FAST)
-ZMK_COMBO(ae,    &hml LG(LSFT) LA(A), LM2 LM1, ALL, COMBO_TERM_FAST)
+ZMK_COMBO(sz,    &hml LA(LSFT) LA(S), LM3 LM2, COMBO_LAYERS, COMBO_TERM_FAST)
+ZMK_COMBO(ae,    &hml LG(LSFT) LA(A), LM2 LM1, COMBO_LAYERS, COMBO_TERM_FAST)
 
-ZMK_COMBO(lt,    &kp LT,        LB3 LB2,     ALL, COMBO_TERM_FAST)
-ZMK_COMBO(lbkt,  &kp LBKT,      LB2 LB1,     ALL, COMBO_TERM_FAST)
+ZMK_COMBO(lt,    &kp LT,        LB3 LB2,     COMBO_LAYERS, COMBO_TERM_FAST)
+ZMK_COMBO(lbkt,  &kp LBKT,      LB2 LB1,     COMBO_LAYERS, COMBO_TERM_FAST)
 
 // Right hand
-ZMK_COMBO(rpar,  &kp RPAR,      RT1 RT2,     ALL, COMBO_TERM_FAST)
-ZMK_COMBO(rbrc,  &kp RBRC,      RT2 RT3,     ALL, COMBO_TERM_FAST)
+ZMK_COMBO(rpar,  &kp RPAR,      RT1 RT2,     COMBO_LAYERS, COMBO_TERM_FAST)
+ZMK_COMBO(rbrc,  &kp RBRC,      RT2 RT3,     COMBO_LAYERS, COMBO_TERM_FAST)
 
-ZMK_COMBO(ue,    &hmr RG(RSFT) LA(U), RM1 RM2, ALL, COMBO_TERM_FAST)
-ZMK_COMBO(oe,    &hmr RA(RSFT) LA(O), RM2 RM3, ALL, COMBO_TERM_FAST)
+ZMK_COMBO(ue,    &hmr RG(RSFT) LA(U), RM1 RM2, COMBO_LAYERS, COMBO_TERM_FAST)
+ZMK_COMBO(oe,    &hmr RA(RSFT) LA(O), RM2 RM3, COMBO_LAYERS, COMBO_TERM_FAST)
 
-ZMK_COMBO(rbkt,  &kp RBKT,      RB1 RB2,     ALL, COMBO_TERM_FAST)
-ZMK_COMBO(gt,    &kp GT,        RB2 RB3,     ALL, COMBO_TERM_FAST)
+ZMK_COMBO(rbkt,  &kp RBKT,      RB1 RB2,     COMBO_LAYERS, COMBO_TERM_FAST)
+ZMK_COMBO(gt,    &kp GT,        RB2 RB3,     COMBO_LAYERS, COMBO_TERM_FAST)
 
 /*********************************************************/
 // Vertical combos
 
 // Left hand
-ZMK_COMBO(at,    &kp AT,        LT3 LM3,     ALL, COMBO_TERM_SLOW)
-ZMK_COMBO(hash,  &kp HASH,      LT2 LM2,     ALL, COMBO_TERM_SLOW)
-ZMK_COMBO(dllr,  &kp DOLLAR,    LT1 LM1,     ALL, COMBO_TERM_SLOW)
-ZMK_COMBO(prcnt, &kp PERCENT,   LT0 LM0,     ALL, COMBO_TERM_SLOW)
+ZMK_COMBO(at,    &kp AT,        LT3 LM3,     COMBO_LAYERS, COMBO_TERM_SLOW)
+ZMK_COMBO(hash,  &kp HASH,      LT2 LM2,     COMBO_LAYERS, COMBO_TERM_SLOW)
+ZMK_COMBO(dllr,  &kp DOLLAR,    LT1 LM1,     COMBO_LAYERS, COMBO_TERM_SLOW)
+ZMK_COMBO(prcnt, &kp PERCENT,   LT0 LM0,     COMBO_LAYERS, COMBO_TERM_SLOW)
 
-ZMK_COMBO(grave, &kp GRAVE,     LM3 LB3,     ALL, COMBO_TERM_SLOW)
-ZMK_COMBO(bslh,  &kp BSLH,      LM2 LB2,     ALL, COMBO_TERM_SLOW)
-ZMK_COMBO(equal, EQUALHOLD,     LM1 LB1,     ALL, COMBO_TERM_SLOW)
-ZMK_COMBO(tilde, &kp TILDE,     LM0 LB0,     ALL, COMBO_TERM_SLOW)
+ZMK_COMBO(grave, &kp GRAVE,     LM3 LB3,     COMBO_LAYERS, COMBO_TERM_SLOW)
+ZMK_COMBO(bslh,  &kp BSLH,      LM2 LB2,     COMBO_LAYERS, COMBO_TERM_SLOW)
+ZMK_COMBO(equal, EQUALHOLD,     LM1 LB1,     COMBO_LAYERS, COMBO_TERM_SLOW)
+ZMK_COMBO(tilde, &kp TILDE,     LM0 LB0,     COMBO_LAYERS, COMBO_TERM_SLOW)
 
 // Right hand
-ZMK_COMBO(caret, &kp CARET,     RT0 RM0,     ALL, COMBO_TERM_SLOW)
-ZMK_COMBO(plus,  &kp PLUS,      RT1 RM1,     ALL, COMBO_TERM_SLOW)
-ZMK_COMBO(star,  &kp STAR,      RT2 RM2,     ALL, COMBO_TERM_SLOW)
-ZMK_COMBO(amps,  AMPSHOLD,      RT3 RM3,     ALL, COMBO_TERM_SLOW)
+ZMK_COMBO(caret, &kp CARET,     RT0 RM0,     COMBO_LAYERS, COMBO_TERM_SLOW)
+ZMK_COMBO(plus,  &kp PLUS,      RT1 RM1,     COMBO_LAYERS, COMBO_TERM_SLOW)
+ZMK_COMBO(star,  &kp STAR,      RT2 RM2,     COMBO_LAYERS, COMBO_TERM_SLOW)
+ZMK_COMBO(amps,  AMPSHOLD,      RT3 RM3,     COMBO_LAYERS, COMBO_TERM_SLOW)
 
-ZMK_COMBO(under, &kp UNDERSCORE, RM0 RB0,     ALL, COMBO_TERM_SLOW)
-ZMK_COMBO(minus, &kp MINUS,     RM1 RB1,     ALL, COMBO_TERM_SLOW)
-ZMK_COMBO(fslh,  &kp FSLH,      RM2 RB2,     ALL, COMBO_TERM_SLOW)
-ZMK_COMBO(pipe,  PIPEHOLD,      RM3 RB3,     ALL, COMBO_TERM_SLOW)
+ZMK_COMBO(under, &kp UNDERSCORE, RM0 RB0,    COMBO_LAYERS, COMBO_TERM_SLOW)
+ZMK_COMBO(minus, &kp MINUS,     RM1 RB1,     COMBO_LAYERS, COMBO_TERM_SLOW)
+ZMK_COMBO(fslh,  &kp FSLH,      RM2 RB2,     COMBO_LAYERS, COMBO_TERM_SLOW)
+ZMK_COMBO(pipe,  PIPEHOLD,      RM3 RB3,     COMBO_LAYERS, COMBO_TERM_SLOW)
 
 /*********************************************************/
 // Cross hand combos
@@ -350,6 +352,18 @@ ZMK_LAYER(base,
 //                                             ╰──────────────┴──────────────┴──────────────╯ ╰──────────────┴──────────────┴──────────────╯
 )
 
+ZMK_LAYER(gaming,
+//               ╭──────────────┬──────────────┬──────────────┬──────────────┬──────────────╮ ╭──────────────┬──────────────┬──────────────┬──────────────┬──────────────╮
+                   ___            ___            ___            ___            ___              ___            ___            ___            ___            ___
+//               ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤
+                   &kp A          &kp S          &kp R          &kp T          ___              ___            &kp N          &kp E          &kp I          &kp O
+//╭──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼──────────────╮
+    &kp LSFT       &kp X          ___            ___            ___            ___              ___            ___            ___            ___            ___            &kp RSFT
+//╰──────────────┼──────────────┼──────────────┴──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┴──────────────┴──────────────╯
+                                                 &mt LCTL ESC   &kp SPACE      &kp TAB          ___            &lt NUMMEH BSPC &lt HYPERFUN DEL
+//                                             ╰──────────────┴──────────────┴──────────────╯ ╰──────────────┴──────────────┴──────────────╯
+)
+
 ZMK_LAYER(symbols,
 //               ╭──────────────┬──────────────┬──────────────┬──────────────┬──────────────╮ ╭──────────────┬──────────────┬──────────────┬──────────────┬──────────────╮
                    _X_            &kp AT         &kp HASH       &kp DOLLAR     &kp PERCENT      &kp CARET      &kp PLUS       &kp STAR       EQUALHOLD      _X_
@@ -364,11 +378,11 @@ ZMK_LAYER(symbols,
 
 ZMK_LAYER(numbers_meh,
 //               ╭──────────────┬──────────────┬──────────────┬──────────────┬──────────────╮ ╭──────────────┬──────────────┬──────────────┬──────────────┬──────────────╮
-                   &kp MEH(F12)   &kp MEH(W)     &kp MEH(L)     &kp MEH(D)     &kp MEH(P)       _X_            &kp N7         &kp N8         &kp N9         _X_
+                   &kp MEH(F12)   &kp MEH(W)     &kp MEH(L)     &kp MEH(D)     &kp MEH(P)       &kp BSPC       &kp N7         &kp N8         &kp N9         _X_
 //               ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤
                    &mt LCTL MEH(A) &mt LALT MEH(S) &mt LSFT MEH(R) &mt LGUI MEH(T) &kp MEH(G)   _X_            &kp N4         &kp N5         &kp N6         _X_
 //╭──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼──────────────╮
-    ASCMD(GRAVE)   &kp MEH(X)     &kp MEH(Z)     &kp MEH(K)     &kp MEH(C)     &kp MEH(V)       _X_            &kp N1         &kp N2         &kp N3         _X_            _X_
+    ASCMD(GRAVE)   &kp MEH(X)     &kp MEH(Z)     &kp MEH(K)     &kp MEH(C)     &kp MEH(V)       &kp N0         &kp N1         &kp N2         &kp N3         _X_            _X_
 //╰──────────────┼──────────────┼──────────────┴──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┴──────────────┴──────────────╯
                                                  _X_            &kp C_PP       &mo NUMMEH       &kp DOT        &kp N0         &kp COMMA
 //                                             ╰──────────────┴──────────────┴──────────────╯ ╰──────────────┴──────────────┴──────────────╯
@@ -394,7 +408,7 @@ ZMK_LAYER(media,
 //╭──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼──────────────╮
     _X_            _X_            _X_            _X_            _X_            _X_              _X_            _X_            &kp C_MUTE     _X_            &bt BT_SEL 0   &bt BT_CLR
 //╰──────────────┼──────────────┼──────────────┴──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┴──────────────┴──────────────╯
-                                                 _X_            _X_            &kp C_PP         &mo MEDIA      &kp C_PP       _X_
+                                                 _X_            _X_            &kp C_PP         &mo MEDIA      &kp C_PP       &tog GAME
 //                                             ╰──────────────┴──────────────┴──────────────╯ ╰──────────────┴──────────────┴──────────────╯
 )
 
@@ -419,18 +433,6 @@ ZMK_LAYER(navigation,
     &kp LG(LBKT)   &kp LG(X)      &kp LG(Z)      &kp LG(K)      &kp LG(C)      &kp LG(V)        &kp PG_DN      &kp HOME       _X_            &kp END        &mo NAV        &kp LG(RBKT)
 //╰──────────────┼──────────────┼──────────────┴──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┴──────────────┴──────────────╯
                                                  _X_            &mo NAV        _X_              &kp RET        &kp SPACE      &kp TAB
-//                                             ╰──────────────┴──────────────┴──────────────╯ ╰──────────────┴──────────────┴──────────────╯
-)
-
-ZMK_LAYER(gaming,
-//               ╭──────────────┬──────────────┬──────────────┬──────────────┬──────────────╮ ╭──────────────┬──────────────┬──────────────┬──────────────┬──────────────╮
-                   _X_            _X_            _X_            _X_            _X_              _X_            _X_            _X_            _X_            _X_
-//               ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤
-                   _X_            _X_            _X_            _X_            _X_              _X_            _X_            _X_            _X_            _X_
-//╭──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼──────────────╮
-    _X_            _X_            _X_            _X_            _X_            _X_              _X_            _X_            _X_            _X_            _X_            _X_
-//╰──────────────┼──────────────┼──────────────┴──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┴──────────────┴──────────────╯
-                                                 _X_            _X_            _X_              _X_            _X_            _X_
 //                                             ╰──────────────┴──────────────┴──────────────╯ ╰──────────────┴──────────────┴──────────────╯
 )
 
