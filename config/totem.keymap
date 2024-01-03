@@ -35,7 +35,9 @@
 #define _X_ &none
 #define ___ &trans
 
+#define TAPPING_TERM 200
 #define QUICK_TAP_MS 175
+#define PRIOR_IDLE 100
 
 /************************************************************************************/
 // OOTB behavior configurations
@@ -51,18 +53,18 @@
 
 &lt {  // regular layer-tap config
     flavor = "balanced";
-    tapping-term-ms = <200>;
+    tapping-term-ms = <TAPPING_TERM>;
     quick-tap-ms = <QUICK_TAP_MS>;
 };
 ZMK_BEHAVIOR(ltw, hold_tap, // layer-tap w/o quick tap
     flavor = "balanced";
-    tapping-term-ms = <200>;
+    tapping-term-ms = <TAPPING_TERM>;
     bindings = <&mo>, <&kp>;
 )
 
 &mt {  // mod-tap config
     flavor = "balanced";
-    tapping-term-ms = <200>;
+    tapping-term-ms = <TAPPING_TERM>;
     quick-tap-ms = <QUICK_TAP_MS>;
 };
 
@@ -79,7 +81,7 @@ ZMK_BEHAVIOR(ltw, hold_tap, // layer-tap w/o quick tap
     SIMPLE_MACRO(macrohold_macro_ ## NAME, MACROKEYPRESSES) \
     ZMK_BEHAVIOR(macrohold_ ## NAME, hold_tap, \
         flavor = "tap-preferred"; \
-        tapping-term-ms = <200>; \
+        tapping-term-ms = <TAPPING_TERM>; \
         bindings = <&macrohold_macro_ ## NAME>, <&kp>; \
     )
 
@@ -95,7 +97,7 @@ ZMK_BEHAVIOR(ltw, hold_tap, // layer-tap w/o quick tap
         flavor = "balanced"; \
         tapping-term-ms = <280>; \
         quick-tap-ms = <QUICK_TAP_MS>; \
-        require-prior-idle-ms = <100>; \
+        require-prior-idle-ms = <PRIOR_IDLE>; \
         bindings = <HOLD>, <TAP>; \
         hold-trigger-key-positions = <TRIGGER_POS>; \
         hold-trigger-on-release; \
@@ -123,7 +125,7 @@ ZMK_BEHAVIOR(smart_shft, mod_morph,
 // #define SMART_NUM &smart_num NUM 0
 // ZMK_BEHAVIOR(smart_num, hold_tap,
 //     flavor = "balanced";
-//     tapping-term-ms = <200>;
+//     tapping-term-ms = <TAPPING_TERM>;
 //     bindings = <&mo>, <&num_word>;
 // )
 // &num_word {
@@ -135,7 +137,7 @@ ZMK_BEHAVIOR(smart_shft, mod_morph,
 // using a regular tap/hold layer switch to the numbers layer in the meanwhile…
 ZMK_BEHAVIOR(mo_tog, hold_tap,
     flavor = "balanced";
-    tapping-term-ms = <200>;
+    tapping-term-ms = <TAPPING_TERM>;
     bindings = <&mo>, <&tog>;
 )
 #define MOTOG(LAYER) &mo_tog LAYER LAYER
@@ -222,17 +224,17 @@ ZMK_BEHAVIOR(hypertap, macro_one_param,
 
 ZMK_BEHAVIOR(cmdhold, hold_tap,
     flavor = "tap-preferred";
-    tapping-term-ms = <200>;
+    tapping-term-ms = <TAPPING_TERM>;
     bindings = <&cmdtap>, <&kp>;
 )
 ZMK_BEHAVIOR(cmdsfthold, hold_tap,
     flavor = "tap-preferred";
-    tapping-term-ms = <200>;
+    tapping-term-ms = <TAPPING_TERM>;
     bindings = <&cmdsfttap>, <&kp>;
 )
 ZMK_BEHAVIOR(hyperhold, hold_tap,
     flavor = "tap-preferred";
-    tapping-term-ms = <200>;
+    tapping-term-ms = <TAPPING_TERM>;
     bindings = <&hypertap>, <&kp>;
 )
 
@@ -277,7 +279,7 @@ ZMK_BEHAVIOR(cancel_all, macro,
 
 // use require-prior-idle-ms for combos
 #undef COMBO_HOOK
-#define COMBO_HOOK require-prior-idle-ms = <100>;
+#define COMBO_HOOK require-prior-idle-ms = <PRIOR_IDLE>;
 
 #define COMBO_TERM_FAST 22
 #define COMBO_TERM_SLOW 30
@@ -348,7 +350,7 @@ ZMK_LAYER(base,
 //╭──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼──────────────╮
     &kp Q          &lt NAVL X     &kp Z          &kp K          &kp C          &kp V            &kp B          &kp H          &comma_morph   &dot_morph     &qexclnav      &kp SQT
 //╰──────────────┼──────────────┼──────────────┴──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┴──────────────┴──────────────╯
-                                                 &lt HYPERFUN ESC &lt NAV BSPC &lt NUMMEH DEL   &lt MEDIA RET  &lt SYM SPACE  &kp TAB
+                                                 &lt HYPERFUN ESC &lt NAV BSPC &lt NUMMEH DEL   &lt MEDIA RET  &kp SPACE      &lt SYM TAB
 //                                             ╰──────────────┴──────────────┴──────────────╯ ╰──────────────┴──────────────┴──────────────╯
 )
 
@@ -366,23 +368,23 @@ ZMK_LAYER(gaming,
 
 ZMK_LAYER(symbols,
 //               ╭──────────────┬──────────────┬──────────────┬──────────────┬──────────────╮ ╭──────────────┬──────────────┬──────────────┬──────────────┬──────────────╮
-                   _X_            &kp AT         &kp HASH       &kp DOLLAR     &kp PERCENT      &kp CARET      &kp PLUS       &kp STAR       EQUALHOLD      _X_
+                   &kp GRAVE      &kp AT         &kp LBRC       &kp RBRC       &kp PERCENT      _X_            &kp LT         &kp GT         EQUALHOLD      &kp STAR
 //               ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤
-                   &mt LCTL LT    &mt LALT LBKT  &mt LSFT LBRC  &mt LGUI LPAR  &kp TILDE        AMPSHOLD       &mt RGUI MINUS &mt RSFT FSLH  &mt RALT BSLH  &kp RCTL
+                   &mt LCTL CARET &mt LALT DOLLAR &mt LSFT LPAR &mt LGUI RPAR  &kp GRAVE        &kp PLUS       &mt RGUI EXCL  &mt RSFT AMPS  &mt RALT PIPE  &kp MINUS
 //╭──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼──────────────╮
-    _X_            &kp GT         &kp RBKT       &kp RBRC       &kp RPAR       &kp GRAVE        PIPEHOLD       &kp UNDERSCORE &comma_morph   &dot_morph     &qexclnav      _X_
+    _X_            _X_            &kp HASH       &kp LBKT       &kp RBKT       &kp TILDE        &kp BSLH       &kp UNDERSCORE &comma_morph   &dot_morph     &kp FSLH       _X_
 //╰──────────────┼──────────────┼──────────────┴──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┴──────────────┴──────────────╯
-                                                 &kp ESC        &kp BSPC       &kp DEL          &kp RET        &kp SPACE      &lt SYM TAB
+                                                 &kp ESC        &kp BSPC       &kp DEL          &kp RET        &kp SPACE      &mo SYM
 //                                             ╰──────────────┴──────────────┴──────────────╯ ╰──────────────┴──────────────┴──────────────╯
 )
 
 ZMK_LAYER(numbers_meh,
 //               ╭──────────────┬──────────────┬──────────────┬──────────────┬──────────────╮ ╭──────────────┬──────────────┬──────────────┬──────────────┬──────────────╮
-                   &kp MEH(F12)   &kp MEH(W)     &kp MEH(L)     &kp MEH(D)     &kp MEH(P)       &kp BSPC       &kp N7         &kp N8         &kp N9         _X_
+                   &kp MEH(F12)   &kp MEH(W)     &kp MEH(L)     &kp MEH(D)     &kp MEH(P)       &kp BSPC       &kp N7         &kp N8         &kp N9         &kp STAR
 //               ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤
-                   &mt LCTL MEH(A) &mt LALT MEH(S) &mt LSFT MEH(R) &mt LGUI MEH(T) &kp MEH(G)   _X_            &kp N4         &kp N5         &kp N6         _X_
+                   &mt LCTL MEH(A) &mt LALT MEH(S) &mt LSFT MEH(R) &mt LGUI MEH(T) &kp MEH(G)   &kp PLUS       &kp N4         &kp N5         &kp N6         &kp MINUS
 //╭──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼──────────────╮
-    ASCMD(GRAVE)   &kp MEH(X)     &kp MEH(Z)     &kp MEH(K)     &kp MEH(C)     &kp MEH(V)       &kp N0         &kp N1         &kp N2         &kp N3         _X_            _X_
+    ASCMD(GRAVE)   &kp MEH(X)     &kp MEH(Z)     &kp MEH(K)     &kp MEH(C)     &kp MEH(V)       &kp N0         &kp N1         &kp N2         &kp N3         &kp FSLH       _X_
 //╰──────────────┼──────────────┼──────────────┴──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┴──────────────┴──────────────╯
                                                  _X_            &kp C_PP       &mo NUMMEH       &kp DOT        &kp N0         &kp COMMA
 //                                             ╰──────────────┴──────────────┴──────────────╯ ╰──────────────┴──────────────┴──────────────╯
