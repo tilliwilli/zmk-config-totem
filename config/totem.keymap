@@ -238,7 +238,9 @@ ZMK_BEHAVIOR(hyperhold, hold_tap,
     bindings = <&hypertap>, <&kp>;
 )
 
-// auto-shift for a CMD-* keypress
+// tap: keypress | hold: CMD+keypress
+#define ACMD(keycode)   &cmdhold keycode keycode
+// tap: CMD+keypress | hold: CMD+SHIFT+keypress
 #define ASCMD(keycode)  &cmdsfthold keycode LG(keycode)
 
 // tap: CMD+G | hold: CMD+F
@@ -348,7 +350,7 @@ ZMK_LAYER(base,
 //               ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤
                    &hml LCTL A    &hml LALT S    &hml LSFT R    &hml LGUI T    &kp G            &kp F          &hmr RGUI N    &hmr RSFT E    &hmr RALT I    &hmr RCTL O
 //╭──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼──────────────╮
-    &kp Q          &lt NAVL X     &kp Z          &kp K          &kp C          &kp V            &kp B          &kp H          &comma_morph   &dot_morph     &qexclnav      &kp SQT
+    &kp Q          &lt NAVL X     &kp Z          &kp K          &lt SYM C      &kp V            &kp B          &lt SYM H      &comma_morph   &dot_morph     &kp FSLH       &kp SQT
 //╰──────────────┼──────────────┼──────────────┴──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┴──────────────┴──────────────╯
                                                  &lt HYPERFUN ESC &lt NAV BSPC &lt NUMMEH DEL   &lt MEDIA RET  &kp SPACE      &lt SYM TAB
 //                                             ╰──────────────┴──────────────┴──────────────╯ ╰──────────────┴──────────────┴──────────────╯
@@ -360,7 +362,7 @@ ZMK_LAYER(gaming,
 //               ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤
                    &kp A          &kp S          &kp R          &kp T          ___              ___            &kp N          &kp E          &kp I          &kp O
 //╭──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼──────────────╮
-    &kp LSFT       &kp X          ___            ___            ___            ___              ___            ___            ___            ___            ___            &kp RSFT
+    &kp LSFT       &kp X          ___            ___            ___            ___              ___            &kp H          ___            ___            ___            &kp RSFT
 //╰──────────────┼──────────────┼──────────────┴──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┴──────────────┴──────────────╯
                                                  &mt LCTL ESC   &kp SPACE      &kp TAB          ___            &lt NUMMEH BSPC &lt HYPERFUN DEL
 //                                             ╰──────────────┴──────────────┴──────────────╯ ╰──────────────┴──────────────┴──────────────╯
@@ -368,11 +370,11 @@ ZMK_LAYER(gaming,
 
 ZMK_LAYER(symbols,
 //               ╭──────────────┬──────────────┬──────────────┬──────────────┬──────────────╮ ╭──────────────┬──────────────┬──────────────┬──────────────┬──────────────╮
-                   &kp GRAVE      &kp AT         &kp LBRC       &kp RBRC       &kp PERCENT      _X_            &kp LT         &kp GT         EQUALHOLD      &kp STAR
+                   ACMD(GRAVE)    &kp AT         ACMD(LBRC)     ACMD(RBRC)     &kp PERCENT      _X_            ACMD(LT)       ACMD(GT)       ACMD(EQUAL)    &kp STAR
 //               ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤
-                   &mt LCTL CARET &mt LALT DOLLAR &mt LSFT LPAR &mt LGUI RPAR  &kp GRAVE        &kp PLUS       &mt RGUI EXCL  &mt RSFT AMPS  &mt RALT PIPE  &kp MINUS
+                   &mt LCTL CARET &mt LALT DOLLAR &mt LSFT LPAR &mt LGUI RPAR  ACMD(GRAVE)      ACMD(PLUS)     &mt RGUI EXCL  &mt RSFT AMPS  &mt RALT PIPE  ACMD(MINUS)
 //╭──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼──────────────╮
-    _X_            _X_            &kp HASH       &kp LBKT       &kp RBKT       &kp TILDE        &kp BSLH       &kp UNDERSCORE &comma_morph   &dot_morph     &kp FSLH       _X_
+    _X_            _X_            &kp HASH       ACMD(LBKT)     ACMD(RBKT)     ACMD(TILDE)      ACMD(BSLH)     ACMD(UNDERSCORE) &comma_morph &dot_morph     &kp FSLH       _X_
 //╰──────────────┼──────────────┼──────────────┴──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┴──────────────┴──────────────╯
                                                  &kp ESC        &kp BSPC       &kp DEL          &kp RET        &kp SPACE      &mo SYM
 //                                             ╰──────────────┴──────────────┴──────────────╯ ╰──────────────┴──────────────┴──────────────╯
@@ -380,11 +382,11 @@ ZMK_LAYER(symbols,
 
 ZMK_LAYER(numbers_meh,
 //               ╭──────────────┬──────────────┬──────────────┬──────────────┬──────────────╮ ╭──────────────┬──────────────┬──────────────┬──────────────┬──────────────╮
-                   &kp MEH(F12)   &kp MEH(W)     &kp MEH(L)     &kp MEH(D)     &kp MEH(P)       &kp BSPC       &kp N7         &kp N8         &kp N9         &kp STAR
+                   &kp MEH(F12)   &kp MEH(W)     &kp MEH(L)     &kp MEH(D)     &kp MEH(P)       &kp BSPC       &kp N7         &kp N8         &kp N9         &kp KP_ASTERISK
 //               ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤
-                   &mt LCTL MEH(A) &mt LALT MEH(S) &mt LSFT MEH(R) &mt LGUI MEH(T) &kp MEH(G)   &kp PLUS       &kp N4         &kp N5         &kp N6         &kp MINUS
+                   &mt LCTL MEH(A) &mt LALT MEH(S) &mt LSFT MEH(R) &mt LGUI MEH(T) &kp MEH(G)   &kp KP_PLUS    &kp N4         &kp N5         &kp N6         &kp KP_SUBTRACT
 //╭──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼──────────────╮
-    ASCMD(GRAVE)   &kp MEH(X)     &kp MEH(Z)     &kp MEH(K)     &kp MEH(C)     &kp MEH(V)       &kp N0         &kp N1         &kp N2         &kp N3         &kp FSLH       _X_
+    ASCMD(GRAVE)   &kp MEH(X)     &kp MEH(Z)     &kp MEH(K)     &kp MEH(C)     &kp MEH(V)       &kp N0         &kp N1         &kp N2         &kp N3         &kp KP_SLASH   _X_
 //╰──────────────┼──────────────┼──────────────┴──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┴──────────────┴──────────────╯
                                                  _X_            &kp C_PP       &mo NUMMEH       &kp DOT        &kp N0         &kp COMMA
 //                                             ╰──────────────┴──────────────┴──────────────╯ ╰──────────────┴──────────────┴──────────────╯
