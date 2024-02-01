@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/../zmk/zmk.iml" filepath="$PROJECT_DIR$/../zmk/zmk.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../zmk-config/zmk-config.iml" filepath="$PROJECT_DIR$/../zmk-config/zmk-config.iml" />
       <module fileurl="file://$PROJECT_DIR$/zmk-config-totem.iml" filepath="$PROJECT_DIR$/zmk-config-totem.iml" />
     </modules>
   </component>
