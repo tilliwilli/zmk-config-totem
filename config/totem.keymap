@@ -21,14 +21,15 @@
 #include "../zmk-nodefree-config/helper.h"
 
 /* Layers aliases */
-#define DEF   0
-#define GAME  1
-#define SYM   2
-#define NUMMEH 3
-#define FUNCTION 4
-#define MEDIA 5
-#define NAVL  6
-#define NAV   7
+#define L_DEF   0
+#define L_GAME  1
+#define L_SYM   2
+#define L_NUMMEH 3
+#define L_FN    4
+#define L_HYPER 5
+#define L_MEDIA 6
+#define L_NAVL  7
+#define L_NAV   8
 
 // #include "mouse.dtsi"
 
@@ -177,7 +178,7 @@ MACROHOLD(excl, &kp SPACE &kp EXCL &kp EQUAL &kp SPACE)
 #define EXCLHOLD &macrohold_excl 0 EXCL
 ZMK_BEHAVIOR(qexclnav, mod_morph,
     mods = <(MOD_LSFT|MOD_RSFT)>;
-    bindings = <&lt NAV QMARK>, <EXCLHOLD>;
+    bindings = <&lt L_NAV QMARK>, <EXCLHOLD>;
 )
 
 // SPACE with navigation layer on hold
@@ -186,7 +187,7 @@ ZMK_BEHAVIOR(qexclnav, mod_morph,
 // left shift space (when tapped) outputs exactly that: shift-space
 ZMK_BEHAVIOR(spc_nav, mod_morph,
     mods = <(MOD_RSFT)>;
-    bindings = <&ltw NAV SPACE>, <&kp SPACE>;
+    bindings = <&ltw L_NAV SPACE>, <&kp SPACE>;
 )
 
 // hold macros for some special symbols
@@ -219,7 +220,7 @@ ZMK_BEHAVIOR(hypertap, macro_one_param,
     bindings = <&macro_press &kp LGUI &kp LALT &kp LCTL &kp LSFT>
              , <&macro_param_1to1>
              , <&macro_tap &kp MACRO_PLACEHOLDER>
-             , <&macro_release &kp LGUI &kp LALT &kp LCTL &kp LSFT>;
+             , <&macro_release &kp LSFT &kp LCTL &kp LALT &kp LGUI>;
 )
 
 ZMK_BEHAVIOR(cmdhold, hold_tap,
@@ -259,7 +260,7 @@ ZMK_BEHAVIOR(hyperhold, hold_tap,
 
 // cancel caps-word, num-word and smart-mouse by sending a fake "cancel" key that does nothing, but is not whitelisted on any smart layer; also remove all layers
 ZMK_BEHAVIOR(cancel_all, macro,
-    bindings = <&kp K_CANCEL &to DEF>;
+    bindings = <&kp K_CANCEL &to L_DEF>;
 )
 
 #define HYPER(keycode) LC(LA(LG(LS(keycode))))
@@ -267,12 +268,33 @@ ZMK_BEHAVIOR(cancel_all, macro,
 // hyper on hold, meh on tap
 #define HYPERMEH(keycode) &hyperhold keycode MEH(keycode)
 
-ZMK_BEHAVIOR(hypercancel, hold_tap,
-    flavor = "tap-preferred";
-    tapping-term-ms = <TAPPING_TERM>;
-    bindings = <&kp>, <&cancel_all>;
+//ZMK_BEHAVIOR(hypercancel, hold_tap,
+//    flavor = "tap-preferred";
+//    tapping-term-ms = <TAPPING_TERM>;
+//    bindings = <&kp>, <&cancel_all>;
+//)
+//#define HYPERCANCEL &hypercancel LC(LA(LS(LGUI))) 0
+
+#define HYPERBSPC &mt LC(LA(LS(LGUI))) BSPC
+
+// activate a layer while also holding HYPER modifier(s)
+ZMK_BEHAVIOR(hypermo, macro_one_param,
+    wait-ms = <0>;
+    tap-ms = <0>;
+    bindings = <&macro_press &kp LGUI &kp LALT &kp LCTL &kp LSFT>
+             , <&macro_param_1to1>
+             , <&macro_press &mo MACRO_PLACEHOLDER>
+             , <&macro_pause_for_release>
+             , <&macro_param_1to1>
+             , <&macro_release &mo MACRO_PLACEHOLDER>
+             , <&macro_release &kp LSFT &kp LCTL &kp LALT &kp LGUI>;
 )
-#define HYPERCANCEL &hypercancel LC(LA(LS(LGUI))) 0
+ZMK_BEHAVIOR(hyperlt, hold_tap,
+    flavor = "hold-preferred";
+    tapping-term-ms = <100>;
+    bindings = <&hypermo>, <&kp>;
+)
+#define HYPER_ESC &hyperlt L_HYPER ESC
 
 // ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 // COMBOS
@@ -294,7 +316,7 @@ ZMK_BEHAVIOR(hypercancel, hold_tap,
 #define COMBO_TERM_SLOW 30
 #define COMBO_TERM_CROSSHAND 40
 
-#define COMBO_LAYERS    DEF NUMMEH NAV
+#define COMBO_LAYERS    L_DEF L_NUMMEH L_NAV
 
 /*********************************************************/
 // Horizontal combos
@@ -353,13 +375,13 @@ ZMK_COMBO(pipe,  PIPEHOLD,      RM3 RB3,     COMBO_LAYERS, COMBO_TERM_SLOW)
 
 ZMK_LAYER(base,
 //               ╭──────────────┬──────────────┬──────────────┬──────────────┬──────────────╮ ╭──────────────┬──────────────┬──────────────┬──────────────┬──────────────╮
-                   &kp Q          &kp W          &lt NUMMEH L   &kp D          &kp P            &kp J          &kp M          &kp O          &kp Y          &kp SQT
+                   &kp Q          &kp W          &lt L_NUMMEH L &kp D          &kp P            &kp J          &kp M          &kp O          &kp Y          &kp SQT
 //               ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤
                    &hml LCTL A    &hml LALT S    &hml LSFT R    &hml LGUI T    &kp G            &kp F          &hmr RGUI N    &hmr RSFT E    &hmr RALT I    &hmr RCTL U
 //╭──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼──────────────╮
-    HYPERCANCEL    &lt NAVL X     &kp Z          &kp K          &lt SYM C      &kp V            &kp B          &lt SYM H      &comma_morph   &dot_morph     &lt NAV FSLH   &kp MINUS
+    &kp BSPC       &lt L_NAVL X   &kp Z          &kp K          &lt L_SYM C    &kp V            &kp B          &lt L_SYM H    &comma_morph   &dot_morph     &lt L_NAV FSLH &kp MINUS
 //╰──────────────┼──────────────┼──────────────┴──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┴──────────────┴──────────────╯
-                                                 &lt NAV ESC    &kp LSFT       &lt NUMMEH BSPC  &lt FUNCTION RET &kp SPACE    &lt MEDIA TAB
+                                                 HYPER_ESC      &lt L_NAV BSPC &lt L_NUMMEH DEL &lt L_FN RET   &mt RSFT SPACE &lt L_MEDIA TAB
 //                                             ╰──────────────┴──────────────┴──────────────╯ ╰──────────────┴──────────────┴──────────────╯
 )
 
@@ -371,7 +393,7 @@ ZMK_LAYER(gaming,
 //╭──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼──────────────╮
     &kp LSFT       &kp B          &kp Z          &kp X          &kp C          &kp V            &kp N          &kp M          &kp COMMA      &kp DOT        &kp FSLH       &kp RSFT
 //╰──────────────┼──────────────┼──────────────┴──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┴──────────────┴──────────────╯
-                                                 &mt LCTL ESC   &kp SPACE      &kp TAB          &lt FUNCTION BSPC &lt NUMMEH DEL ___
+                                                 &mt LCTL ESC   &kp SPACE      &kp TAB          &lt L_FN BSPC  &lt L_NUMMEH DEL ___
 //                                             ╰──────────────┴──────────────┴──────────────╯ ╰──────────────┴──────────────┴──────────────╯
 )
 
@@ -395,7 +417,7 @@ ZMK_LAYER(numbers_meh,
 //╭──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼──────────────╮
     ASCMD(GRAVE)   &kp MEH(X)     &kp MEH(Z)     &kp MEH(K)     &kp MEH(C)     &kp MEH(V)       &kp N0         &kp N1         &kp N2         &kp N3         &kp KP_SLASH   &kp KP_SUBTRACT
 //╰──────────────┼──────────────┼──────────────┴──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┴──────────────┴──────────────╯
-                                                 ___            &mt LSFT C_PP  &lt NUMMEH BSPC  &kp N0         &kp COMMA      &kp DOT
+                                                 _X_            &kp BSPC       &mo L_NUMMEH     &kp N0         &kp COMMA      &kp DOT
 //                                             ╰──────────────┴──────────────┴──────────────╯ ╰──────────────┴──────────────┴──────────────╯
 )
 
@@ -407,7 +429,19 @@ ZMK_LAYER(function,
 //╭──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼──────────────╮
     _X_            _X_            _X_            _X_            _X_            _X_              &kp F10        &kp F1         &kp F2         &kp F3         _X_            _X_
 //╰──────────────┼──────────────┼──────────────┴──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┴──────────────┴──────────────╯
-                                                 &kp ESC        &kp LSFT       _X_              &mo FUNCTION   &kp C_PP       _X_
+                                                 &kp ESC        _X_            _X_              &mo L_FN       &kp C_PP       _X_
+//                                             ╰──────────────┴──────────────┴──────────────╯ ╰──────────────┴──────────────┴──────────────╯
+)
+
+ZMK_LAYER(hyper,
+//               ╭──────────────┬──────────────┬──────────────┬──────────────┬──────────────╮ ╭──────────────┬──────────────┬──────────────┬──────────────┬──────────────╮
+                   &kp F12        ___            ___            ___            ___              ___            ___            ___            ___            &kp F3
+//               ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤
+                   ___            ___            ___            ___            ___              ___            ___            ___            ___            ___
+//╭──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼──────────────╮
+    &kp F11        ___            ___            ___            ___            ___              ___            ___            &kp F7         &kp F6         &kp F5         &kp F4
+//╰──────────────┼──────────────┼──────────────┴──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┴──────────────┴──────────────╯
+                                                 &mo L_HYPER    _X_            _X_              &kp F10        &kp F9         &kp F8
 //                                             ╰──────────────┴──────────────┴──────────────╯ ╰──────────────┴──────────────┴──────────────╯
 )
 
@@ -419,7 +453,7 @@ ZMK_LAYER(media,
 //╭──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼──────────────╮
     _X_            _X_            _X_            _X_            _X_            _X_              &kp C_BRI_DN   _X_            &kp C_MUTE     _X_            &bt BT_SEL 0   &bt BT_CLR
 //╰──────────────┼──────────────┼──────────────┴──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┴──────────────┴──────────────╯
-                                                 &kp C_PP       _X_            _X_              &tog GAME      _X_            &mo MEDIA
+                                                 &kp C_PP       _X_            _X_              &tog L_GAME    _X_            &mo L_MEDIA
 //                                             ╰──────────────┴──────────────┴──────────────╯ ╰──────────────┴──────────────┴──────────────╯
 )
 
@@ -429,7 +463,7 @@ ZMK_LAYER(navigation_left,
 //               ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤
                    _X_            &kp LEFT       &kp DOWN       &kp RIGHT      &kp PG_UP        _X_            _X_            _X_            _X_            _X_
 //╭──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼──────────────╮
-    _X_            &mo NAVL       &kp HOME       _X_            &kp END        &kp PG_DN        _X_            _X_            _X_            _X_            _X_            _X_
+    _X_            &mo L_NAVL     &kp HOME       _X_            &kp END        &kp PG_DN        _X_            _X_            _X_            _X_            _X_            _X_
 //╰──────────────┼──────────────┼──────────────┴──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┴──────────────┴──────────────╯
                                                  &kp TAB        &kp SPACE      &kp RET          _X_            _X_            _X_
 //                                             ╰──────────────┴──────────────┴──────────────╯ ╰──────────────┴──────────────┴──────────────╯
@@ -441,9 +475,9 @@ ZMK_LAYER(navigation,
 //               ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤
                    &mt LCTL LG(A) &mt LALT LG(S) &mt LSFT LG(R) &mt LGUI LG(T) CMD_G_F          &kp PG_UP      &kp LEFT       &kp DOWN       &kp RIGHT      _X_
 //╭──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼──────────────╮
-    &kp LG(LBKT)   &kp LG(X)      &kp LG(Z)      &kp LG(K)      &kp LG(C)      &kp LG(V)        &kp PG_DN      &kp HOME       _X_            &kp END        &mo NAV        &kp LG(RBKT)
+    &kp LG(LBKT)   &kp LG(X)      &kp LG(Z)      &kp LG(K)      &kp LG(C)      &kp LG(V)        &kp PG_DN      &kp HOME       _X_            &kp END        &mo L_NAV      &kp LG(RBKT)
 //╰──────────────┼──────────────┼──────────────┴──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┴──────────────┴──────────────╯
-                                                 &mo NAV        _X_            _X_              &kp RET        &kp SPACE      &kp TAB
+                                                 _X_            &mo L_NAV      _X_              &kp RET        &kp SPACE      &kp TAB
 //                                             ╰──────────────┴──────────────┴──────────────╯ ╰──────────────┴──────────────┴──────────────╯
 )
 
