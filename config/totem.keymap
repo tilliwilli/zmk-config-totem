@@ -42,6 +42,7 @@
 
 /************************************************************************************/
 // OOTB behavior configurations
+/************************************************************************************/
 
 &sk {  // sticky-key config
     release-after-ms = <900>;
@@ -70,7 +71,8 @@ ZMK_BEHAVIOR(ltw, hold_tap, // layer-tap w/o quick tap
 };
 
 /************************************************************************************/
-// some general macro defines
+// General macro behaviors
+/************************************************************************************/
 
 #define SIMPLE_MACRO(NAME, KEYPRESSES) \
     ZMK_BEHAVIOR(NAME, macro, \
@@ -88,6 +90,7 @@ ZMK_BEHAVIOR(ltw, hold_tap, // layer-tap w/o quick tap
 
 /************************************************************************************/
 // Homerow mods
+/************************************************************************************/
 
 #define KEYS_L LT0 LT1 LT2 LT3 LT4 LM0 LM1 LM2 LM3 LM4 LB0 LB1 LB2 LB3 LB4 LB5  // left hand
 #define KEYS_R RT0 RT1 RT2 RT3 RT4 RM0 RM1 RM2 RM3 RM4 RB0 RB1 RB2 RB3 RB4 RB5  // right hand
@@ -109,6 +112,7 @@ MAKE_HRM(hmr, &kp, &kp, KEYS_L THUMBS)  // right-hand HRMs
 
 /************************************************************************************/
 // Smart layers: Caps-word, Num-word and Smart-mouse
+/************************************************************************************/
 
 // tap/hold: shift | shift + tap (by using the HRM shift): caps-word
 ZMK_BEHAVIOR(smart_shft, mod_morph,
@@ -152,8 +156,15 @@ ZMK_BEHAVIOR(mo_tog, hold_tap,
 //     ignored-layers = <MOUSE>;
 // )
 
+
+// cancel caps-word, num-word and smart-mouse by sending a fake "cancel" key that does nothing, but is not whitelisted on any smart layer; also remove all layers
+ZMK_BEHAVIOR(cancel_all, macro,
+    bindings = <&kp K_CANCEL &to L_DEF>;
+)
+
 /************************************************************************************/
 // Misc. custom behaviors
+/************************************************************************************/
 
 // Alt+Tab swapper
 ZMK_BEHAVIOR(swapper, tri_state,
@@ -198,8 +209,12 @@ MACROHOLD(amps, &kp SPACE &kp AMPS  &kp AMPS  &kp SPACE)
 MACROHOLD(pipe, &kp SPACE &kp PIPE  &kp PIPE  &kp SPACE)
 #define PIPEHOLD &macrohold_pipe 0 PIPE
 
+SIMPLE_MACRO(select_word, &kp LA(RIGHT) &kp LA(LEFT) &kp LA(LS(RIGHT)))
+SIMPLE_MACRO(extend_word, &kp LA(LS(RIGHT)))
+
 /************************************************************************************/
 // Hold-tap with single taps of (modified) keys on hold (no repeat on hold)
+/************************************************************************************/
 
 ZMK_BEHAVIOR(simpletap, macro_one_param,
     bindings = <&macro_param_1to1>, <&macro_tap &kp MACRO_PLACEHOLDER>;
@@ -256,12 +271,8 @@ ZMK_BEHAVIOR(hyperhold, hold_tap,
 
 
 /************************************************************************************/
-// Misc. defines
-
-// cancel caps-word, num-word and smart-mouse by sending a fake "cancel" key that does nothing, but is not whitelisted on any smart layer; also remove all layers
-ZMK_BEHAVIOR(cancel_all, macro,
-    bindings = <&kp K_CANCEL &to L_DEF>;
-)
+// Hyper/meh stuff
+/************************************************************************************/
 
 #define HYPER(keycode) LC(LA(LG(LS(keycode))))
 #define MEH(keycode)   LC(LA(LG(keycode)))       // different from "regular" meh which does CTRL-ALT-SHIFT instead of CTRL-ALT-GUI
@@ -275,7 +286,7 @@ ZMK_BEHAVIOR(cancel_all, macro,
 //)
 //#define HYPERCANCEL &hypercancel LC(LA(LS(LGUI))) 0
 
-#define HYPERBSPC &mt LC(LA(LS(LGUI))) BSPC
+//#define HYPERBSPC &mt LC(LA(LS(LGUI))) BSPC
 
 // activate a layer while also holding HYPER modifier(s)
 ZMK_BEHAVIOR(hypermo, macro_one_param,
@@ -291,13 +302,14 @@ ZMK_BEHAVIOR(hypermo, macro_one_param,
 )
 ZMK_BEHAVIOR(hyperlt, hold_tap,
     flavor = "hold-preferred";
-    tapping-term-ms = <100>;
+    tapping-term-ms = <TAPPING_TERM>;
     bindings = <&hypermo>, <&kp>;
 )
 #define HYPER_ESC &hyperlt L_HYPER ESC
 
 // ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 // COMBOS
+// ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 
 /*                KEY POSITIONS
 
@@ -345,26 +357,22 @@ ZMK_COMBO(gt,    &kp GT,        RB2 RB3,     COMBO_LAYERS, COMBO_TERM_FAST)
 // Vertical combos
 
 // Left hand
-ZMK_COMBO(at,    &kp AT,        LT3 LM3,     COMBO_LAYERS, COMBO_TERM_SLOW)
 ZMK_COMBO(hash,  &kp HASH,      LT2 LM2,     COMBO_LAYERS, COMBO_TERM_SLOW)
 ZMK_COMBO(dllr,  &kp DOLLAR,    LT1 LM1,     COMBO_LAYERS, COMBO_TERM_SLOW)
 ZMK_COMBO(prcnt, &kp PERCENT,   LT0 LM0,     COMBO_LAYERS, COMBO_TERM_SLOW)
 
-ZMK_COMBO(grave, &kp GRAVE,     LM3 LB3,     COMBO_LAYERS, COMBO_TERM_SLOW)
-ZMK_COMBO(bslh,  &kp BSLH,      LM2 LB2,     COMBO_LAYERS, COMBO_TERM_SLOW)
-ZMK_COMBO(equal, EQUALHOLD,     LM1 LB1,     COMBO_LAYERS, COMBO_TERM_SLOW)
-ZMK_COMBO(tilde, &kp TILDE,     LM0 LB0,     COMBO_LAYERS, COMBO_TERM_SLOW)
+ZMK_COMBO(equal, EQUALHOLD,     LM2 LB2,     COMBO_LAYERS, COMBO_TERM_SLOW)
+ZMK_COMBO(at,    &kp AT,        LM1 LB1,     COMBO_LAYERS, COMBO_TERM_SLOW)
+ZMK_COMBO(grave, &kp GRAVE,     LM0 LB0,     COMBO_LAYERS, COMBO_TERM_SLOW)
 
 // Right hand
-ZMK_COMBO(caret, &kp CARET,     RT0 RM0,     COMBO_LAYERS, COMBO_TERM_SLOW)
+ZMK_COMBO(star,  &kp STAR,      RT0 RM0,     COMBO_LAYERS, COMBO_TERM_SLOW)
 ZMK_COMBO(plus,  &kp PLUS,      RT1 RM1,     COMBO_LAYERS, COMBO_TERM_SLOW)
-ZMK_COMBO(star,  &kp STAR,      RT2 RM2,     COMBO_LAYERS, COMBO_TERM_SLOW)
-ZMK_COMBO(amps,  AMPSHOLD,      RT3 RM3,     COMBO_LAYERS, COMBO_TERM_SLOW)
+ZMK_COMBO(amps,  AMPSHOLD,      RT2 RM2,     COMBO_LAYERS, COMBO_TERM_SLOW)
 
-ZMK_COMBO(under, &kp UNDERSCORE, RM0 RB0,    COMBO_LAYERS, COMBO_TERM_SLOW)
-ZMK_COMBO(minus, &kp MINUS,     RM1 RB1,     COMBO_LAYERS, COMBO_TERM_SLOW)
-ZMK_COMBO(fslh,  &kp FSLH,      RM2 RB2,     COMBO_LAYERS, COMBO_TERM_SLOW)
-ZMK_COMBO(pipe,  PIPEHOLD,      RM3 RB3,     COMBO_LAYERS, COMBO_TERM_SLOW)
+ZMK_COMBO(bslh,  &kp BSLH,      RM0 RB0,    COMBO_LAYERS, COMBO_TERM_SLOW)
+ZMK_COMBO(fslh,  &kp FSLH,      RM1 RB1,     COMBO_LAYERS, COMBO_TERM_SLOW)
+ZMK_COMBO(pipe,  PIPEHOLD,      RM2 RB2,     COMBO_LAYERS, COMBO_TERM_SLOW)
 
 /*********************************************************/
 // Cross hand combos
@@ -372,14 +380,15 @@ ZMK_COMBO(pipe,  PIPEHOLD,      RM3 RB3,     COMBO_LAYERS, COMBO_TERM_SLOW)
 
 // ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 // The actual keymap layers
+// ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 
 ZMK_LAYER(base,
 //               ╭──────────────┬──────────────┬──────────────┬──────────────┬──────────────╮ ╭──────────────┬──────────────┬──────────────┬──────────────┬──────────────╮
-                   &kp Q          &kp W          &lt L_NUMMEH L &kp D          &kp P            &kp J          &kp M          &kp O          &kp Y          &kp SQT
+                   &kp LA(A)      &kp W          &lt L_NUMMEH L &kp D          &kp P            &kp J          &kp M          &kp O          &kp Y          &kp LA(U)
 //               ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤
                    &hml LCTL A    &hml LALT S    &hml LSFT R    &hml LGUI T    &kp G            &kp F          &hmr RGUI N    &hmr RSFT E    &hmr RALT I    &hmr RCTL U
 //╭──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼──────────────╮
-    &kp BSPC       &lt L_NAVL X   &kp Z          &kp K          &lt L_SYM C    &kp V            &kp B          &lt L_SYM H    &comma_morph   &dot_morph     &lt L_NAV FSLH &kp MINUS
+    &kp Q          &lt L_NAVL X   &kp Z          &kp K          &lt L_SYM C    &kp V            &kp B          &lt L_SYM H    &comma_morph   &dot_morph     &lt L_NAV MINUS &kp SQT
 //╰──────────────┼──────────────┼──────────────┴──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┴──────────────┴──────────────╯
                                                  HYPER_ESC      &lt L_NAV BSPC &lt L_NUMMEH DEL &lt L_FN RET   &mt RSFT SPACE &lt L_MEDIA TAB
 //                                             ╰──────────────┴──────────────┴──────────────╯ ╰──────────────┴──────────────┴──────────────╯
@@ -399,13 +408,13 @@ ZMK_LAYER(gaming,
 
 ZMK_LAYER(symbols,
 //               ╭──────────────┬──────────────┬──────────────┬──────────────┬──────────────╮ ╭──────────────┬──────────────┬──────────────┬──────────────┬──────────────╮
-                   &kp GRAVE      &kp AT         &kp LBRC       &kp RBRC       &kp PERCENT      _X_            &kp LT         &kp GT         &kp EQUAL      _X_
+                   _X_            &kp AT         &kp LBRC       &kp RBRC       &kp PERCENT      _X_            &kp LT         &kp GT         &kp PIPE       _X_
 //               ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤
-                   &mt LCTL CARET &mt LALT DOLLAR &mt LSFT LPAR &mt LGUI RPAR  &kp GRAVE        &kp STAR       &mt RGUI EXCL  &mt RSFT AMPS  &mt RALT PIPE  &mt RCTL PLUS
+                   &mt LCTL CARET &mt LALT DOLLAR &mt LSFT LPAR &mt LGUI RPAR  ACMD(QMARK)      &kp STAR       &mt RGUI LBKT  &mt RSFT RBKT  &mt RALT AMPS  &mt RCTL PLUS
 //╭──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼──────────────╮
-    _X_            _X_            &kp HASH       &kp LBKT       &kp RBKT       &kp TILDE        _X_            &kp BSLH       &comma_morph   &dot_morph     &kp FSLH       &kp MINUS
+    _X_            ACMD(TILDE)    &kp HASH      EQUALHOLD      EXCLHOLD        ACMD(GRAVE)      ACMD(BSLH)     ACMD(FSLH)     &comma_morph   &dot_morph     &kp MINUS      &kp SQT
 //╰──────────────┼──────────────┼──────────────┴──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┴──────────────┴──────────────╯
-                                                 &kp ESC        &kp LSFT       &kp BSPC         &kp RET        &kp SPACE      &kp TAB 
+                                                 &kp ESC        &kp BSPC       &kp DEL          &kp RET        &kp SPACE      &kp TAB 
 //                                             ╰──────────────┴──────────────┴──────────────╯ ╰──────────────┴──────────────┴──────────────╯
 )
 
@@ -415,7 +424,7 @@ ZMK_LAYER(numbers_meh,
 //               ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤
                    &mt LCTL MEH(A) &mt LALT MEH(S) &mt LSFT MEH(R) &mt LGUI MEH(T) &kp MEH(G)   &kp KP_ASTERISK &kp N4        &kp N5         &kp N6         &kp KP_PLUS
 //╭──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼──────────────╮
-    ASCMD(GRAVE)   &kp MEH(X)     &kp MEH(Z)     &kp MEH(K)     &kp MEH(C)     &kp MEH(V)       &kp N0         &kp N1         &kp N2         &kp N3         &kp KP_SLASH   &kp KP_SUBTRACT
+    ASCMD(GRAVE)   &kp MEH(X)     &kp MEH(Z)     &kp MEH(K)     &kp MEH(C)     &kp MEH(V)       &kp KP_SLASH   &kp N1         &kp N2         &kp N3         &kp KP_SUBTRACT _X_
 //╰──────────────┼──────────────┼──────────────┴──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┴──────────────┴──────────────╯
                                                  _X_            &kp BSPC       &mo L_NUMMEH     &kp N0         &kp COMMA      &kp DOT
 //                                             ╰──────────────┴──────────────┴──────────────╯ ╰──────────────┴──────────────┴──────────────╯
@@ -473,11 +482,11 @@ ZMK_LAYER(navigation,
 //               ╭──────────────┬──────────────┬──────────────┬──────────────┬──────────────╮ ╭──────────────┬──────────────┬──────────────┬──────────────┬──────────────╮
                    &kp LG(Q)      &kp LG(W)      CMD_L_CSTAB    CMD_D_CTAB     CMD_SFT_G_F      _X_            &kp BSPC       &kp UP         &kp DEL        _X_
 //               ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤
-                   &mt LCTL LG(A) &mt LALT LG(S) &mt LSFT LG(R) &mt LGUI LG(T) CMD_G_F          &kp PG_UP      &kp LEFT       &kp DOWN       &kp RIGHT      _X_
+                   &mt LCTL LG(A) &mt LALT LG(S) &mt LSFT LG(R) &mt LGUI LG(T) CMD_G_F          &kp PG_UP      &kp LEFT       &kp DOWN       &kp RIGHT      &extend_word
 //╭──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼──────────────╮
-    &kp LG(LBKT)   &kp LG(X)      &kp LG(Z)      &kp LG(K)      &kp LG(C)      &kp LG(V)        &kp PG_DN      &kp HOME       _X_            &kp END        &mo L_NAV      &kp LG(RBKT)
+    &kp LG(LBKT)   &kp LG(X)      &kp LG(Z)      &kp LG(K)      &kp LG(C)      &kp LG(V)        &kp PG_DN      &kp HOME       &select_word   &kp END        &mo L_NAV      &kp LG(RBKT)
 //╰──────────────┼──────────────┼──────────────┴──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┴──────────────┴──────────────╯
-                                                 _X_            &mo L_NAV      _X_              &kp RET        &kp SPACE      &kp TAB
+                                                 _X_            &mo L_NAV      _X_              &kp RET        &mt RSFT SPACE &kp TAB
 //                                             ╰──────────────┴──────────────┴──────────────╯ ╰──────────────┴──────────────┴──────────────╯
 )
 
