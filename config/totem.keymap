@@ -385,11 +385,11 @@ ZMK_COMBO(pipe,  PIPEHOLD,      RM2 RB2,     COMBO_LAYERS, COMBO_TERM_SLOW)
 
 ZMK_LAYER(base,
 //               ╭──────────────┬──────────────┬──────────────┬──────────────┬──────────────╮ ╭──────────────┬──────────────┬──────────────┬──────────────┬──────────────╮
-                   &kp LA(A)      &kp W          &lt L_NUMPAD L &kp D          &kp P            &kp J          &kp M          &kp O          &kp Y          &kp LA(U)
+                   &kp Q          &kp W          &lt L_NUMPAD L &kp D          &kp P            &kp J          &kp M          &kp O          &kp Y          &kp SQT
 //               ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤
                    &hml LCTL A    &hml LALT S    &hml LSFT R    &hml LGUI T    &kp G            &kp F          &hmr RGUI N    &hmr RSFT E    &hmr RALT I    &hmr RCTL U
 //╭──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼──────────────╮
-    &kp Q          &lt L_NAVL X   &kp Z          &kp K          &lt L_SYM C    &kp V            &kp B          &lt L_SYM H    &comma_morph   &dot_morph     &lt L_NAV MINUS &kp SQT
+    &kp LA(A)      &lt L_NAVL X   &kp Z          &kp K          &lt L_SYM C    &kp V            &kp B          &lt L_SYM H    &comma_morph   &dot_morph     &lt L_NAV MINUS &kp LA(U)
 //╰──────────────┼──────────────┼──────────────┴──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┴──────────────┴──────────────╯
                                                  HYPER_ESC      &lt L_NAV BSPC &lt L_NUMMEH DEL &lt L_NUMFN RET &mt RSFT SPACE &lt L_MEDIA TAB
 //                                             ╰──────────────┴──────────────┴──────────────╯ ╰──────────────┴──────────────┴──────────────╯
@@ -409,11 +409,11 @@ ZMK_LAYER(gaming,
 
 ZMK_LAYER(symbols,
 //               ╭──────────────┬──────────────┬──────────────┬──────────────┬──────────────╮ ╭──────────────┬──────────────┬──────────────┬──────────────┬──────────────╮
-                   _X_            &kp AT         &kp LBRC       &kp RBRC       &kp PERCENT      _X_            &kp LT         &kp GT         &kp PIPE       _X_
+                   _X_            &kp AT         &kp LBRC       &kp RBRC       &kp PERCENT      _X_            &kp LT         &kp GT         &kp PIPE       &kp SQT
 //               ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤
                    &mt LCTL CARET &mt LALT DOLLAR &mt LSFT LPAR &mt LGUI RPAR  ACMD(QMARK)      &kp STAR       &mt RGUI LBKT  &mt RSFT RBKT  &mt RALT AMPS  &mt RCTL PLUS
 //╭──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼──────────────╮
-    _X_            ACMD(TILDE)    &kp HASH       EQUALHOLD      EXCLHOLD       ACMD(GRAVE)      ACMD(BSLH)     ACMD(FSLH)     &comma_morph   &dot_morph     &kp MINUS      &kp SQT
+    _X_            ACMD(TILDE)    &kp HASH       EQUALHOLD      EXCLHOLD       ACMD(GRAVE)      ACMD(BSLH)     ACMD(FSLH)     &comma_morph   &dot_morph     &kp MINUS      _X_
 //╰──────────────┼──────────────┼──────────────┴──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┴──────────────┴──────────────╯
                                                  ___            ___            ___              ___            ___            ___ 
 //                                             ╰──────────────┴──────────────┴──────────────╯ ╰──────────────┴──────────────┴──────────────╯
