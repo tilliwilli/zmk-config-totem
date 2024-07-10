@@ -45,15 +45,6 @@
 // OOTB behavior configurations
 /************************************************************************************/
 
-&sk {  // sticky-key config
-    release-after-ms = <900>;
-    quick-release;             // no double capitalization when rolling keys
-};
-
-&sl {  // sticky-layer config
-    ignore-modifiers;          // allow chording sticky mods & layers
-};
-
 &lt {  // regular layer-tap config
     flavor = "balanced";
     tapping-term-ms = <TAPPING_TERM>;
@@ -69,6 +60,27 @@ ZMK_BEHAVIOR(ltw, hold_tap, // layer-tap w/o quick tap
     flavor = "balanced";
     tapping-term-ms = <TAPPING_TERM>;
     quick-tap-ms = <QUICK_TAP_MS>;
+};
+
+&sk {  // sticky-key config
+    release-after-ms = <900>;
+    quick-release;             // no double capitalization when rolling keys
+};
+
+// layertap/modtap with sticky key instead of a normal keypress (and w/o quick tap, of course)
+ZMK_BEHAVIOR(lt_sk, hold_tap,
+    flavor = "balanced";
+    tapping-term-ms = <TAPPING_TERM>;
+    bindings = <&mo>, <&sk>;
+)
+ZMK_BEHAVIOR(mt_sk, hold_tap,
+    flavor = "balanced";
+    tapping-term-ms = <TAPPING_TERM>;
+    bindings = <&kp>, <&sk>;
+)
+
+&sl {  // sticky-layer config
+    ignore-modifiers;          // allow chording sticky mods & layers
 };
 
 /************************************************************************************/
@@ -115,14 +127,14 @@ MAKE_HRM(hmr, KEYS_L THUMBS)  // right-hand HRMs
 // Smart layers: Caps-word, Num-word and Smart-mouse
 /************************************************************************************/
 
-// tap/hold: shift | shift + tap (by using the HRM shift): caps-word
-ZMK_BEHAVIOR(smart_shft, mod_morph,
-    mods = <(MOD_LSFT|MOD_RSFT)>;
-    bindings = <&kp LSFT>, <&caps_word>;
+ZMK_BEHAVIOR(shift_nummeh, mod_morph,
+    mods = <(MOD_LSFT)>;
+    bindings = <&lt_sk L_NUMMEH LSFT>, <&mt_sk RSFT LSFT>;
 )
-&caps_word {
-    continue-list = <UNDERSCORE MINUS BACKSPACE DELETE LEFT RIGHT UP DOWN>;
-};
+
+// &caps_word {
+//    continue-list = <UNDERSCORE MINUS BACKSPACE DELETE LEFT RIGHT UP DOWN>;
+// };
 
 
 // tap: num-word | hold: num-layer
@@ -141,12 +153,12 @@ ZMK_BEHAVIOR(smart_shft, mod_morph,
 // };
 
 // using a regular tap/hold layer switch to the numbers layer in the meanwhile…
-ZMK_BEHAVIOR(mo_tog, hold_tap,
-    flavor = "balanced";
-    tapping-term-ms = <TAPPING_TERM>;
-    bindings = <&mo>, <&tog>;
-)
-#define MOTOG(LAYER) &mo_tog LAYER LAYER
+// ZMK_BEHAVIOR(mo_tog, hold_tap,
+//     flavor = "balanced";
+//     tapping-term-ms = <TAPPING_TERM>;
+//     bindings = <&mo>, <&tog>;
+// )
+// #define MOTOG(LAYER) &mo_tog LAYER LAYER
 // #define SMART_NUM MOTOG(NUM)
 
 
@@ -391,7 +403,7 @@ ZMK_LAYER(base,
 //╭──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼──────────────╮
     &kp LA(A)      &lt L_NAVL X   &kp Z          &kp K          &lt L_SYM C    &kp V            &kp B          &lt L_SYM H    &comma_morph   &dot_morph     &lt L_NAV MINUS &kp LA(U)
 //╰──────────────┼──────────────┼──────────────┴──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┴──────────────┴──────────────╯
-                                                 HYPER_ESC      &lt L_NAV BSPC &lt L_NUMMEH DEL &lt L_NUMFN RET &mt RSFT SPACE &lt L_MEDIA TAB
+                                                 HYPER_ESC      &lt L_NAV BSPC &shift_nummeh    &lt L_NUMFN RET &mt RSFT SPACE &lt L_MEDIA TAB
 //                                             ╰──────────────┴──────────────┴──────────────╯ ╰──────────────┴──────────────┴──────────────╯
 )
 
@@ -415,7 +427,7 @@ ZMK_LAYER(symbols,
 //╭──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼──────────────╮
     _X_            ACMD(TILDE)    &kp HASH       EQUALHOLD      EXCLHOLD       ACMD(GRAVE)      ACMD(BSLH)     ACMD(FSLH)     &comma_morph   &dot_morph     &kp MINUS      _X_
 //╰──────────────┼──────────────┼──────────────┴──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┴──────────────┴──────────────╯
-                                                 ___            ___            ___              ___            ___            ___ 
+                                                 ___            ___            ___              ___            ___            ___
 //                                             ╰──────────────┴──────────────┴──────────────╯ ╰──────────────┴──────────────┴──────────────╯
 )
 
@@ -425,7 +437,7 @@ ZMK_LAYER(numfn_meh,
 //               ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤
                    &mt LCTL MEH(A) &mt LALT MEH(S) &mt LSFT MEH(R) &mt LGUI MEH(T) &kp MEH(G)   &kp N6         &mt RGUI N7    &mt RSFT N8    &mt RALT N9    &mt RCTL N0
 //╭──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼──────────────╮
-    ASCMD(GRAVE)   &kp MEH(X)     &kp MEH(Z)     &kp MEH(K)     &kp MEH(C)     &kp MEH(V)       &kp F11        &kp F12        &kp COMMA      &kp DOT        _X_            _X_
+    ASCMD(GRAVE)   &kp MEH(X)     &kp MEH(Z)     &kp MEH(K)     &kp MEH(C)     &kp MEH(V)       &kp F11        &kp F12        &kp COMMA      &kp DOT        &kp MINUS      _X_
 //╰──────────────┼──────────────┼──────────────┴──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┴──────────────┴──────────────╯
                                                  _X_            &kp C_PP       &mo L_NUMMEH     ___            ___            ___
 //                                             ╰──────────────┴──────────────┴──────────────╯ ╰──────────────┴──────────────┴──────────────╯
@@ -436,7 +448,7 @@ ZMK_LAYER(numfn_full,
 //               ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤
                    &hml LCTL N1   &hml LALT N2   &hml LSFT N3   &hml LGUI N4   &kp N5           &kp N6         &hmr RGUI N7   &hmr RSFT N8   &hmr RALT N9   &hmr RCTL N0
 //╭──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼──────────────╮
-    _X_            &kp KP_SLASH   &kp KP_ASTERISK &kp KP_SUBTRACT &kp KP_PLUS  _X_              &kp F11        &kp F12        &kp COMMA      &kp DOT        _X_            _X_
+    _X_            &kp KP_SLASH   &kp KP_ASTERISK &kp KP_SUBTRACT &kp KP_PLUS  _X_              &kp F11        &kp F12        &kp COMMA      &kp DOT        &kp MINUS      _X_
 //╰──────────────┼──────────────┼──────────────┴──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┴──────────────┴──────────────╯
                                                  ___            ___            ___              &mo L_NUMFN    &kp C_PP       _X_
 //                                             ╰──────────────┴──────────────┴──────────────╯ ╰──────────────┴──────────────┴──────────────╯
