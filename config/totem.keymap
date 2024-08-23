@@ -50,7 +50,7 @@
     tapping-term-ms = <TAPPING_TERM>;
     quick-tap-ms = <QUICK_TAP_MS>;
 };
-ZMK_BEHAVIOR(ltw, hold_tap, // layer-tap w/o quick tap
+ZMK_HOLD_TAP(ltw, // layer-tap w/o quick tap
     flavor = "balanced";
     tapping-term-ms = <TAPPING_TERM>;
     bindings = <&mo>, <&kp>;
@@ -68,12 +68,12 @@ ZMK_BEHAVIOR(ltw, hold_tap, // layer-tap w/o quick tap
 };
 
 // layertap/modtap with sticky key instead of a normal keypress (and w/o quick tap, of course)
-ZMK_BEHAVIOR(lt_sk, hold_tap,
+ZMK_HOLD_TAP(lt_sk,
     flavor = "balanced";
     tapping-term-ms = <TAPPING_TERM>;
     bindings = <&mo>, <&sk>;
 )
-ZMK_BEHAVIOR(mt_sk, hold_tap,
+ZMK_HOLD_TAP(mt_sk,
     flavor = "balanced";
     tapping-term-ms = <TAPPING_TERM>;
     bindings = <&kp>, <&sk>;
@@ -88,14 +88,14 @@ ZMK_BEHAVIOR(mt_sk, hold_tap,
 /************************************************************************************/
 
 #define SIMPLE_MACRO(NAME, KEYPRESSES) \
-    ZMK_BEHAVIOR(NAME, macro, \
+    ZMK_MACRO(NAME, \
         bindings = <KEYPRESSES>; \
     )
 
 // hold-tap with regular keypress on tap and a simple keypress macro on hold
 #define MACROHOLD(NAME, MACROKEYPRESSES) \
     SIMPLE_MACRO(macrohold_macro_ ## NAME, MACROKEYPRESSES) \
-    ZMK_BEHAVIOR(macrohold_ ## NAME, hold_tap, \
+    ZMK_HOLD_TAP(macrohold_ ## NAME, \
         flavor = "tap-preferred"; \
         tapping-term-ms = <TAPPING_TERM>; \
         bindings = <&macrohold_macro_ ## NAME>, <&kp>; \
@@ -110,7 +110,7 @@ ZMK_BEHAVIOR(mt_sk, hold_tap,
 #define THUMBS LH2 LH1 LH0 RH0 RH1 RH2                                          // thumbs
 
 #define MAKE_HRM(NAME, TRIGGER_POS) \
-    ZMK_BEHAVIOR(NAME, hold_tap, \
+    ZMK_HOLD_TAP(NAME, \
         flavor = "balanced"; \
         tapping-term-ms = <280>; \
         quick-tap-ms = <QUICK_TAP_MS>; \
@@ -141,7 +141,7 @@ ZMK_BEHAVIOR(shift_nummeh, mod_morph,
 // num-word requires PR #1451
 
 // #define SMART_NUM &smart_num NUM 0
-// ZMK_BEHAVIOR(smart_num, hold_tap,
+// ZMK_HOLD_TAP(smart_num,
 //     flavor = "balanced";
 //     tapping-term-ms = <TAPPING_TERM>;
 //     bindings = <&mo>, <&num_word>;
@@ -153,7 +153,7 @@ ZMK_BEHAVIOR(shift_nummeh, mod_morph,
 // };
 
 // using a regular tap/hold layer switch to the numbers layer in the meanwhile…
-// ZMK_BEHAVIOR(mo_tog, hold_tap,
+// ZMK_HOLD_TAP(mo_tog,
 //     flavor = "balanced";
 //     tapping-term-ms = <TAPPING_TERM>;
 //     bindings = <&mo>, <&tog>;
@@ -163,7 +163,7 @@ ZMK_BEHAVIOR(shift_nummeh, mod_morph,
 
 
 // smart-mouse, requires PR #1366
-// ZMK_BEHAVIOR(smart_mouse, tri_state,
+// ZMK_TRI_STATE(smart_mouse,
 //     bindings = <&tog MOUSE>, <&none>, <&tog MOUSE>;
 //     ignored-key-positions = <LT1 LT3 RT1 RT2 RT3 RM1 RM2 RM3 RH0 RH1>;
 //     ignored-layers = <MOUSE>;
@@ -171,7 +171,7 @@ ZMK_BEHAVIOR(shift_nummeh, mod_morph,
 
 
 // cancel caps-word, num-word and smart-mouse by sending a fake "cancel" key that does nothing, but is not whitelisted on any smart layer; also remove all layers
-ZMK_BEHAVIOR(cancel_all, macro,
+ZMK_MACRO(cancel_all,
     bindings = <&kp K_CANCEL &to L_DEF>;
 )
 
@@ -180,19 +180,19 @@ ZMK_BEHAVIOR(cancel_all, macro,
 /************************************************************************************/
 
 // Alt+Tab swapper
-ZMK_BEHAVIOR(swapper, tri_state,
+ZMK_TRI_STATE(swapper,
     bindings = <&kt LGUI>, <&kp TAB>, <&kt LGUI>;
     ignored-key-positions = <LT2>;
 )
 
 // tap: comma | shift + tap: semicolon
-ZMK_BEHAVIOR(comma_morph, mod_morph,
+ZMK_MOD_MORPH(comma_morph,
     mods = <(MOD_LSFT|MOD_RSFT)>;
     bindings = <&kp COMMA>, <&kp SEMICOLON>;
 )
 
 // tap: dot | shift + tap: colon
-ZMK_BEHAVIOR(dot_morph, mod_morph,
+ZMK_MOD_MORPH(dot_morph,
     mods = <(MOD_LSFT|MOD_RSFT)>;
     bindings = <&kp DOT>, <&kp COLON>;
 )
@@ -209,7 +209,7 @@ ZMK_BEHAVIOR(qexclnav, mod_morph,
 // note: there is no quick-tap repeat on regular tap-hold to ease adding a space while navigating around (i.e. hopping in and out of the navigation layer)
 // however, RSHIFT-Space (with right shift!) directly outputs a regular space keypress (without shift and with repeat) to easily add repeated spaces without needing to hammer the key
 // left shift space (when tapped) outputs exactly that: shift-space
-ZMK_BEHAVIOR(spc_nav, mod_morph,
+ZMK_MOD_MORPH(spc_nav,
     mods = <(MOD_RSFT)>;
     bindings = <&ltw L_NAV SPACE>, <&kp SPACE>;
 )
@@ -229,39 +229,39 @@ SIMPLE_MACRO(extend_word, &kp LA(LS(RIGHT)))
 // Hold-tap with single taps of (modified) keys on hold (no repeat on hold)
 /************************************************************************************/
 
-ZMK_BEHAVIOR(simpletap, macro_one_param,
+ZMK_MACRO_ONE_PARAM(simpletap,
     bindings = <&macro_param_1to1>, <&macro_tap &kp MACRO_PLACEHOLDER>;
 )
-ZMK_BEHAVIOR(cmdtap, macro_one_param,
+ZMK_MACRO_ONE_PARAM(cmdtap,
     bindings = <&macro_press &kp LGUI>
              , <&macro_param_1to1>
              , <&macro_tap &kp MACRO_PLACEHOLDER>
              , <&macro_release &kp LGUI>;
 )
-ZMK_BEHAVIOR(cmdsfttap, macro_one_param,
+ZMK_MACRO_ONE_PARAM(cmdsfttap,
     bindings = <&macro_press &kp LGUI &kp LSFT>
              , <&macro_param_1to1>
              , <&macro_tap &kp MACRO_PLACEHOLDER>
              , <&macro_release &kp LSFT &kp LGUI>;
 )
-ZMK_BEHAVIOR(hypertap, macro_one_param,
+ZMK_MACRO_ONE_PARAM(hypertap,
     bindings = <&macro_press &kp LGUI &kp LALT &kp LCTL &kp LSFT>
              , <&macro_param_1to1>
              , <&macro_tap &kp MACRO_PLACEHOLDER>
              , <&macro_release &kp LSFT &kp LCTL &kp LALT &kp LGUI>;
 )
 
-ZMK_BEHAVIOR(cmdhold, hold_tap,
+ZMK_HOLD_TAP(cmdhold,
     flavor = "tap-preferred";
     tapping-term-ms = <TAPPING_TERM>;
     bindings = <&cmdtap>, <&kp>;
 )
-ZMK_BEHAVIOR(cmdsfthold, hold_tap,
+ZMK_HOLD_TAP(cmdsfthold,
     flavor = "tap-preferred";
     tapping-term-ms = <TAPPING_TERM>;
     bindings = <&cmdsfttap>, <&kp>;
 )
-ZMK_BEHAVIOR(hyperhold, hold_tap,
+ZMK_HOLD_TAP(hyperhold,
     flavor = "tap-preferred";
     tapping-term-ms = <TAPPING_TERM>;
     bindings = <&hypertap>, <&kp>;
@@ -292,7 +292,7 @@ ZMK_BEHAVIOR(hyperhold, hold_tap,
 // hyper on hold, meh on tap
 #define HYPERMEH(keycode) &hyperhold keycode MEH(keycode)
 
-//ZMK_BEHAVIOR(hypercancel, hold_tap,
+//ZMK_HOLD_TAP(hypercancel,
 //    flavor = "tap-preferred";
 //    tapping-term-ms = <TAPPING_TERM>;
 //    bindings = <&kp>, <&cancel_all>;
@@ -302,7 +302,7 @@ ZMK_BEHAVIOR(hyperhold, hold_tap,
 //#define HYPERBSPC &mt LC(LA(LS(LGUI))) BSPC
 
 // activate a layer while also holding HYPER modifier(s)
-ZMK_BEHAVIOR(hypermo, macro_one_param,
+ZMK_MACRO_ONE_PARAM(hypermo,
     wait-ms = <0>;
     tap-ms = <0>;
     bindings = <&macro_press &kp LGUI &kp LALT &kp LCTL &kp LSFT>
@@ -313,7 +313,7 @@ ZMK_BEHAVIOR(hypermo, macro_one_param,
              , <&macro_release &mo MACRO_PLACEHOLDER>
              , <&macro_release &kp LSFT &kp LCTL &kp LALT &kp LGUI>;
 )
-ZMK_BEHAVIOR(hyperlt, hold_tap,
+ZMK_HOLD_TAP(hyperlt,
     flavor = "hold-preferred";
     tapping-term-ms = <TAPPING_TERM>;
     bindings = <&hypermo>, <&kp>;
