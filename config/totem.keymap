@@ -222,9 +222,6 @@ MACROHOLD(amps, &kp SPACE &kp AMPS  &kp AMPS  &kp SPACE)
 MACROHOLD(pipe, &kp SPACE &kp PIPE  &kp PIPE  &kp SPACE)
 #define PIPEHOLD &macrohold_pipe 0 PIPE
 
-SIMPLE_MACRO(select_word, &kp LA(RIGHT) &kp LA(LEFT) &kp LA(LS(RIGHT)))
-SIMPLE_MACRO(extend_word, &kp LA(LS(RIGHT)))
-
 /************************************************************************************/
 // Hold-tap with single taps of (modified) keys on hold (no repeat on hold)
 /************************************************************************************/
@@ -503,7 +500,7 @@ ZMK_LAYER(navigation,
 //               ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤
                    &mt LCTL LG(A) &mt LALT LG(S) &mt LSFT LG(R) &mt LGUI LG(T) CMD_G_F          &kp PG_UP      &kp LEFT       &kp DOWN       &kp RIGHT      &extend_word
 //╭──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼──────────────╮
-    &kp LG(LBKT)   &kp LG(X)      &kp LG(Z)      &kp LG(K)      &kp LG(C)      &kp LG(V)        &kp PG_DN      &kp HOME       &select_word   &kp END        &mo L_NAV      &kp LG(RBKT)
+    &kp LG(LBKT)   &kp LG(X)      &kp LG(Z)      &kp LG(K)      &kp LG(C)      &kp LG(V)        &kp PG_DN      &kp HOME       _X_            &kp END        &mo L_NAV      &kp LG(RBKT)
 //╰──────────────┼──────────────┼──────────────┴──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┴──────────────┴──────────────╯
                                                  _X_            &mo L_NAV      _X_              &kp RET        &kp SPACE      &kp TAB
 //                                             ╰──────────────┴──────────────┴──────────────╯ ╰──────────────┴──────────────┴──────────────╯
