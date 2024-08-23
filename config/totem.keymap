@@ -17,8 +17,8 @@
 #include <dt-bindings/zmk/bt.h>
 #include <dt-bindings/zmk/outputs.h>
 
-#include "../zmk-nodefree-config/keypos_def/keypos_38keys.h"
-#include "../zmk-nodefree-config/helper.h"
+#include "zmk-helpers/key-labels/totem.h"
+#include "zmk-helpers/helper.h"
 
 /* Layers aliases */
 #define L_DEF   0
@@ -333,10 +333,6 @@ ZMK_BEHAVIOR(hyperlt, hold_tap,
   ╰───────────╮ LH2 LH1 LH0 │ │ RH0 RH1 RH2 ╭───────────╯
               ╰─────────────╯ ╰─────────────╯ */
 
-// use require-prior-idle-ms for combos
-#undef COMBO_HOOK
-#define COMBO_HOOK require-prior-idle-ms = <PRIOR_IDLE>;
-
 #define COMBO_TERM_FAST 22
 #define COMBO_TERM_SLOW 30
 #define COMBO_TERM_CROSSHAND 40
@@ -347,45 +343,45 @@ ZMK_BEHAVIOR(hyperlt, hold_tap,
 // Horizontal combos
 
 // Left hand
-ZMK_COMBO(lbrc,  &kp LBRC,      LT3 LT2,     COMBO_LAYERS, COMBO_TERM_FAST)
-ZMK_COMBO(lpar,  &kp LPAR,      LT2 LT1,     COMBO_LAYERS, COMBO_TERM_FAST)
+ZMK_COMBO(lbrc,  &kp LBRC,      LT3 LT2,     COMBO_LAYERS, COMBO_TERM_FAST, PRIOR_IDLE)
+ZMK_COMBO(lpar,  &kp LPAR,      LT2 LT1,     COMBO_LAYERS, COMBO_TERM_FAST, PRIOR_IDLE)
 
-ZMK_COMBO(sz,    &hml LA(LSFT) LA(S), LM3 LM2, COMBO_LAYERS, COMBO_TERM_FAST)
-ZMK_COMBO(ae,    &hml LG(LSFT) LA(A), LM2 LM1, COMBO_LAYERS, COMBO_TERM_FAST)
+ZMK_COMBO(sz,    &hml LA(LSFT) LA(S), LM3 LM2, COMBO_LAYERS, COMBO_TERM_FAST, PRIOR_IDLE)
+ZMK_COMBO(ae,    &hml LG(LSFT) LA(A), LM2 LM1, COMBO_LAYERS, COMBO_TERM_FAST, PRIOR_IDLE)
 
-ZMK_COMBO(lt,    &kp LT,        LB3 LB2,     COMBO_LAYERS, COMBO_TERM_FAST)
-ZMK_COMBO(lbkt,  &kp LBKT,      LB2 LB1,     COMBO_LAYERS, COMBO_TERM_FAST)
+ZMK_COMBO(lt,    &kp LT,        LB3 LB2,     COMBO_LAYERS, COMBO_TERM_FAST, PRIOR_IDLE)
+ZMK_COMBO(lbkt,  &kp LBKT,      LB2 LB1,     COMBO_LAYERS, COMBO_TERM_FAST, PRIOR_IDLE)
 
 // Right hand
-ZMK_COMBO(rpar,  &kp RPAR,      RT1 RT2,     COMBO_LAYERS, COMBO_TERM_FAST)
-ZMK_COMBO(rbrc,  &kp RBRC,      RT2 RT3,     COMBO_LAYERS, COMBO_TERM_FAST)
+ZMK_COMBO(rpar,  &kp RPAR,      RT1 RT2,     COMBO_LAYERS, COMBO_TERM_FAST, PRIOR_IDLE)
+ZMK_COMBO(rbrc,  &kp RBRC,      RT2 RT3,     COMBO_LAYERS, COMBO_TERM_FAST, PRIOR_IDLE)
 
-ZMK_COMBO(ue,    &hmr RG(RSFT) LA(U), RM1 RM2, COMBO_LAYERS, COMBO_TERM_FAST)
-ZMK_COMBO(oe,    &hmr RA(RSFT) LA(O), RM2 RM3, COMBO_LAYERS, COMBO_TERM_FAST)
+ZMK_COMBO(ue,    &hmr RG(RSFT) LA(U), RM1 RM2, COMBO_LAYERS, COMBO_TERM_FAST, PRIOR_IDLE)
+ZMK_COMBO(oe,    &hmr RA(RSFT) LA(O), RM2 RM3, COMBO_LAYERS, COMBO_TERM_FAST, PRIOR_IDLE)
 
-ZMK_COMBO(rbkt,  &kp RBKT,      RB1 RB2,     COMBO_LAYERS, COMBO_TERM_FAST)
-ZMK_COMBO(gt,    &kp GT,        RB2 RB3,     COMBO_LAYERS, COMBO_TERM_FAST)
+ZMK_COMBO(rbkt,  &kp RBKT,      RB1 RB2,     COMBO_LAYERS, COMBO_TERM_FAST, PRIOR_IDLE)
+ZMK_COMBO(gt,    &kp GT,        RB2 RB3,     COMBO_LAYERS, COMBO_TERM_FAST, PRIOR_IDLE)
 
 /*********************************************************/
 // Vertical combos
 
 // Left hand
-ZMK_COMBO(hash,  &kp HASH,      LT2 LM2,     COMBO_LAYERS, COMBO_TERM_SLOW)
-ZMK_COMBO(dllr,  &kp DOLLAR,    LT1 LM1,     COMBO_LAYERS, COMBO_TERM_SLOW)
-ZMK_COMBO(prcnt, &kp PERCENT,   LT0 LM0,     COMBO_LAYERS, COMBO_TERM_SLOW)
+ZMK_COMBO(hash,  &kp HASH,      LT2 LM2,     COMBO_LAYERS, COMBO_TERM_SLOW, PRIOR_IDLE)
+ZMK_COMBO(dllr,  &kp DOLLAR,    LT1 LM1,     COMBO_LAYERS, COMBO_TERM_SLOW, PRIOR_IDLE)
+ZMK_COMBO(prcnt, &kp PERCENT,   LT0 LM0,     COMBO_LAYERS, COMBO_TERM_SLOW, PRIOR_IDLE)
 
-ZMK_COMBO(equal, EQUALHOLD,     LM2 LB2,     COMBO_LAYERS, COMBO_TERM_SLOW)
-ZMK_COMBO(at,    &kp AT,        LM1 LB1,     COMBO_LAYERS, COMBO_TERM_SLOW)
-ZMK_COMBO(grave, &kp GRAVE,     LM0 LB0,     COMBO_LAYERS, COMBO_TERM_SLOW)
+ZMK_COMBO(equal, EQUALHOLD,     LM2 LB2,     COMBO_LAYERS, COMBO_TERM_SLOW, PRIOR_IDLE)
+ZMK_COMBO(at,    &kp AT,        LM1 LB1,     COMBO_LAYERS, COMBO_TERM_SLOW, PRIOR_IDLE)
+ZMK_COMBO(grave, &kp GRAVE,     LM0 LB0,     COMBO_LAYERS, COMBO_TERM_SLOW, PRIOR_IDLE)
 
 // Right hand
-ZMK_COMBO(star,  &kp STAR,      RT0 RM0,     COMBO_LAYERS, COMBO_TERM_SLOW)
-ZMK_COMBO(plus,  &kp PLUS,      RT1 RM1,     COMBO_LAYERS, COMBO_TERM_SLOW)
-ZMK_COMBO(amps,  AMPSHOLD,      RT2 RM2,     COMBO_LAYERS, COMBO_TERM_SLOW)
+ZMK_COMBO(star,  &kp STAR,      RT0 RM0,     COMBO_LAYERS, COMBO_TERM_SLOW, PRIOR_IDLE)
+ZMK_COMBO(plus,  &kp PLUS,      RT1 RM1,     COMBO_LAYERS, COMBO_TERM_SLOW, PRIOR_IDLE)
+ZMK_COMBO(amps,  AMPSHOLD,      RT2 RM2,     COMBO_LAYERS, COMBO_TERM_SLOW, PRIOR_IDLE)
 
-ZMK_COMBO(bslh,  &kp BSLH,      RM0 RB0,    COMBO_LAYERS, COMBO_TERM_SLOW)
-ZMK_COMBO(fslh,  &kp FSLH,      RM1 RB1,     COMBO_LAYERS, COMBO_TERM_SLOW)
-ZMK_COMBO(pipe,  PIPEHOLD,      RM2 RB2,     COMBO_LAYERS, COMBO_TERM_SLOW)
+ZMK_COMBO(bslh,  &kp BSLH,      RM0 RB0,    COMBO_LAYERS, COMBO_TERM_SLOW, PRIOR_IDLE)
+ZMK_COMBO(fslh,  &kp FSLH,      RM1 RB1,     COMBO_LAYERS, COMBO_TERM_SLOW, PRIOR_IDLE)
+ZMK_COMBO(pipe,  PIPEHOLD,      RM2 RB2,     COMBO_LAYERS, COMBO_TERM_SLOW, PRIOR_IDLE)
 
 /*********************************************************/
 // Cross hand combos

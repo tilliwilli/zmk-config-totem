@@ -1,3 +1,4 @@
-[submodule "zmk-nodefree-config"]
-	path = zmk-nodefree-config
-	url = https://github.com/urob/zmk-nodefree-config
+[submodule "config/zmk-helpers-repo"]
+	path = config/zmk-helpers-repo
+	url = https://github.com/urob/zmk-helpers
+	branch = v2
