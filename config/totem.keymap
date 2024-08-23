@@ -125,10 +125,10 @@ MAKE_HRM(hmr, KEYS_L THUMBS)  // right-hand HRMs
 // Smart layers: Caps-word, Num-word and Smart-mouse
 /************************************************************************************/
 
-ZMK_BEHAVIOR(shift_nummeh, mod_morph,
-    mods = <(MOD_LSFT)>;
-    bindings = <&lt_sk L_NUMMEH LSFT>, <&mt_sk RSFT LSFT>;
-)
+//ZMK_MOD_MORPH(shift_nummeh,
+//    mods = <(MOD_LSFT)>;
+//    bindings = <&lt_sk L_NUMMEH LSFT>, <&mt_sk RSFT LSFT>;
+//)
 
 // &caps_word {
 //    continue-list = <UNDERSCORE MINUS BACKSPACE DELETE LEFT RIGHT UP DOWN>;
@@ -390,7 +390,7 @@ ZMK_LAYER(base,
 //╭──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼──────────────╮
     &kp LA(A)      &lt L_NAVL X   &kp Z          &kp K          &kp C          &kp V            &kp B          &kp H          &comma_morph   &dot_morph     &lt L_NAV MINUS &kp LA(U)
 //╰──────────────┼──────────────┼──────────────┴──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┴──────────────┴──────────────╯
-                                                 HYPER_ESC      &lt L_NAV BSPC &shift_nummeh    &lt L_NUMFN RET &mt RSFT SPACE &lt L_MEDIA TAB
+                                                 HYPER_ESC      &lt L_NAV BSPC &lt L_NUMMEH DEL &lt L_NUMFN RET &mt RSFT SPACE &lt L_MEDIA TAB
 //                                             ╰──────────────┴──────────────┴──────────────╯ ╰──────────────┴──────────────┴──────────────╯
 )
 
