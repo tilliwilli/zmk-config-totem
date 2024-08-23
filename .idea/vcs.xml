@@ -12,6 +12,5 @@
     <mapping directory="" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/../urob" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/../zmk" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/config/zmk-helpers-repo" vcs="Git" />
   </component>
 </project>
