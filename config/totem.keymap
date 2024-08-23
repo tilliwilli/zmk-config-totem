@@ -23,14 +23,12 @@
 /* Layers aliases */
 #define L_DEF   0
 #define L_GAME  1
-#define L_SYM   2
-#define L_NUMMEH 3
-#define L_NUMFN 4
-#define L_NUMPAD 5
-#define L_HYPER 6
-#define L_MEDIA 7
-#define L_NAVL  8
-#define L_NAV   9
+#define L_NUMMEH 2
+#define L_NUMFN 3
+#define L_HYPER 4
+#define L_MEDIA 5
+#define L_NAVL  6
+#define L_NAV   7
 
 // #include "mouse.dtsi"
 
@@ -197,14 +195,6 @@ ZMK_MOD_MORPH(dot_morph,
     bindings = <&kp DOT>, <&kp COLON>;
 )
 
-// tap: question mark | hold: navigation layer | shift + tap: exclamation mark (with ' != ' on hold)
-MACROHOLD(excl, &kp SPACE &kp EXCL &kp EQUAL &kp SPACE)
-#define EXCLHOLD &macrohold_excl 0 EXCL
-ZMK_BEHAVIOR(qexclnav, mod_morph,
-    mods = <(MOD_LSFT|MOD_RSFT)>;
-    bindings = <&lt L_NAV QMARK>, <EXCLHOLD>;
-)
-
 // SPACE with navigation layer on hold
 // note: there is no quick-tap repeat on regular tap-hold to ease adding a space while navigating around (i.e. hopping in and out of the navigation layer)
 // however, RSHIFT-Space (with right shift!) directly outputs a regular space keypress (without shift and with repeat) to easily add repeated spaces without needing to hammer the key
@@ -215,6 +205,8 @@ ZMK_MOD_MORPH(spc_nav,
 )
 
 // hold macros for some special symbols
+MACROHOLD(excl, &kp SPACE &kp EXCL &kp EQUAL &kp SPACE)
+#define EXCLHOLD &macrohold_excl 0 EXCL
 MACROHOLD(equal, &kp SPACE &kp EQUAL &kp EQUAL &kp SPACE)
 #define EQUALHOLD &macrohold_equal 0 EQUAL
 MACROHOLD(amps, &kp SPACE &kp AMPS  &kp AMPS  &kp SPACE)
@@ -330,59 +322,61 @@ ZMK_HOLD_TAP(hyperlt,
   ╰───────────╮ LH2 LH1 LH0 │ │ RH0 RH1 RH2 ╭───────────╯
               ╰─────────────╯ ╰─────────────╯ */
 
-#define COMBO_TERM_FAST 22
-#define COMBO_TERM_SLOW 30
-#define COMBO_TERM_CROSSHAND 40
+#define COMBO_TERM_FAST 30
+#define COMBO_TERM_SLOW 40
+#define COMBO_TERM_CROSSHAND 50
 
-#define COMBO_LAYERS    L_DEF L_NUMMEH L_NUMFN L_NUMPAD L_NAV
+#define COMBO_LAYERS    L_DEF L_NUMMEH L_NUMFN L_NAV
 
 /*********************************************************/
 // Horizontal combos
 
 // Left hand
-ZMK_COMBO(lbrc,  &kp LBRC,      LT3 LT2,     COMBO_LAYERS, COMBO_TERM_FAST, PRIOR_IDLE)
-ZMK_COMBO(lpar,  &kp LPAR,      LT2 LT1,     COMBO_LAYERS, COMBO_TERM_FAST, PRIOR_IDLE)
+ZMK_COMBO(lbrc, &kp LEFT_BRACE,          LT3 LT2,     COMBO_LAYERS, COMBO_TERM_FAST, PRIOR_IDLE)
+ZMK_COMBO(lpar, &kp LEFT_PARENTHESIS,    LT2 LT1,     COMBO_LAYERS, COMBO_TERM_FAST, PRIOR_IDLE)
+ZMK_COMBO(at,   &kp AT_SIGN,             LT3 LT2 LT1, COMBO_LAYERS, COMBO_TERM_SLOW, PRIOR_IDLE)
 
-ZMK_COMBO(sz,    &hml LA(LSFT) LA(S), LM3 LM2, COMBO_LAYERS, COMBO_TERM_FAST, PRIOR_IDLE)
-ZMK_COMBO(ae,    &hml LG(LSFT) LA(A), LM2 LM1, COMBO_LAYERS, COMBO_TERM_FAST, PRIOR_IDLE)
+ZMK_COMBO(sz,   &hml LA(LSFT) LA(S),     LM3 LM2,     COMBO_LAYERS, COMBO_TERM_FAST, PRIOR_IDLE)
+ZMK_COMBO(bslh, &hml LG(LSFT) BACKSLASH, LM2 LM1,     COMBO_LAYERS, COMBO_TERM_FAST, PRIOR_IDLE)
+ZMK_COMBO(excl, &hml LG(LA(LSFT)) EXCLAMATION, LM3 LM2 LM1, COMBO_LAYERS, COMBO_TERM_SLOW, PRIOR_IDLE)
 
-ZMK_COMBO(lt,    &kp LT,        LB3 LB2,     COMBO_LAYERS, COMBO_TERM_FAST, PRIOR_IDLE)
-ZMK_COMBO(lbkt,  &kp LBKT,      LB2 LB1,     COMBO_LAYERS, COMBO_TERM_FAST, PRIOR_IDLE)
+ZMK_COMBO(lbkt, &kp LEFT_BRACKET,        LB3 LB2,     COMBO_LAYERS, COMBO_TERM_FAST, PRIOR_IDLE)
+ZMK_COMBO(lt,   &kp LESS_THAN,           LB2 LB1,     COMBO_LAYERS, COMBO_TERM_FAST, PRIOR_IDLE)
+ZMK_COMBO(tild, &kp TILDE,               LB3 LB2 LB1, COMBO_LAYERS, COMBO_TERM_SLOW, PRIOR_IDLE)
 
 // Right hand
-ZMK_COMBO(rpar,  &kp RPAR,      RT1 RT2,     COMBO_LAYERS, COMBO_TERM_FAST, PRIOR_IDLE)
-ZMK_COMBO(rbrc,  &kp RBRC,      RT2 RT3,     COMBO_LAYERS, COMBO_TERM_FAST, PRIOR_IDLE)
+ZMK_COMBO(rpar, &kp RIGHT_PARENTHESIS,   RT1 RT2,     COMBO_LAYERS, COMBO_TERM_FAST, PRIOR_IDLE)
+ZMK_COMBO(rbrc, &kp RIGHT_BRACE,         RT2 RT3,     COMBO_LAYERS, COMBO_TERM_FAST, PRIOR_IDLE)
+ZMK_COMBO(hash, &kp HASH,                RT1 RT2 RT3, COMBO_LAYERS, COMBO_TERM_SLOW, PRIOR_IDLE)
 
-ZMK_COMBO(ue,    &hmr RG(RSFT) LA(U), RM1 RM2, COMBO_LAYERS, COMBO_TERM_FAST, PRIOR_IDLE)
-ZMK_COMBO(oe,    &hmr RA(RSFT) LA(O), RM2 RM3, COMBO_LAYERS, COMBO_TERM_FAST, PRIOR_IDLE)
+ZMK_COMBO(fslh, &hmr RG(RSFT) SLASH,     RM1 RM2,     COMBO_LAYERS, COMBO_TERM_FAST, PRIOR_IDLE)
+ZMK_COMBO(oe,   &hmr RA(RSFT) LA(O),     RM2 RM3,     COMBO_LAYERS, COMBO_TERM_FAST, PRIOR_IDLE)
+ZMK_COMBO(ques, &hmr RG(RA(RSFT)) QUESTION, RM1 RM2 RM3, COMBO_LAYERS, COMBO_TERM_SLOW, PRIOR_IDLE)
 
-ZMK_COMBO(rbkt,  &kp RBKT,      RB1 RB2,     COMBO_LAYERS, COMBO_TERM_FAST, PRIOR_IDLE)
-ZMK_COMBO(gt,    &kp GT,        RB2 RB3,     COMBO_LAYERS, COMBO_TERM_FAST, PRIOR_IDLE)
+ZMK_COMBO(rbkt, &kp RIGHT_BRACKET,       RB1 RB2,     COMBO_LAYERS, COMBO_TERM_FAST, PRIOR_IDLE)
+ZMK_COMBO(gt,   &kp GREATER_THAN,        RB2 RB3,     COMBO_LAYERS, COMBO_TERM_FAST, PRIOR_IDLE)
+ZMK_COMBO(eq,   EQUALHOLD,               RB1 RB2 RB3, COMBO_LAYERS, COMBO_TERM_SLOW, PRIOR_IDLE)
 
 /*********************************************************/
 // Vertical combos
 
 // Left hand
-ZMK_COMBO(hash,  &kp HASH,      LT2 LM2,     COMBO_LAYERS, COMBO_TERM_SLOW, PRIOR_IDLE)
-ZMK_COMBO(dllr,  &kp DOLLAR,    LT1 LM1,     COMBO_LAYERS, COMBO_TERM_SLOW, PRIOR_IDLE)
-ZMK_COMBO(prcnt, &kp PERCENT,   LT0 LM0,     COMBO_LAYERS, COMBO_TERM_SLOW, PRIOR_IDLE)
+ZMK_COMBO(dllr, &kp DOLLAR,  LT1 LM1,     COMBO_LAYERS, COMBO_TERM_SLOW, PRIOR_IDLE)
+ZMK_COMBO(prct, &kp PERCENT, LT0 LM0,     COMBO_LAYERS, COMBO_TERM_SLOW, PRIOR_IDLE)
 
-ZMK_COMBO(equal, EQUALHOLD,     LM2 LB2,     COMBO_LAYERS, COMBO_TERM_SLOW, PRIOR_IDLE)
-ZMK_COMBO(at,    &kp AT,        LM1 LB1,     COMBO_LAYERS, COMBO_TERM_SLOW, PRIOR_IDLE)
-ZMK_COMBO(grave, &kp GRAVE,     LM0 LB0,     COMBO_LAYERS, COMBO_TERM_SLOW, PRIOR_IDLE)
+ZMK_COMBO(grav, &kp GRAVE,   LM1 LB1,     COMBO_LAYERS, COMBO_TERM_SLOW, PRIOR_IDLE)
+ZMK_COMBO(care, &kp CARET,   LM0 LB0,     COMBO_LAYERS, COMBO_TERM_SLOW, PRIOR_IDLE)
 
 // Right hand
-ZMK_COMBO(star,  &kp STAR,      RT0 RM0,     COMBO_LAYERS, COMBO_TERM_SLOW, PRIOR_IDLE)
-ZMK_COMBO(plus,  &kp PLUS,      RT1 RM1,     COMBO_LAYERS, COMBO_TERM_SLOW, PRIOR_IDLE)
-ZMK_COMBO(amps,  AMPSHOLD,      RT2 RM2,     COMBO_LAYERS, COMBO_TERM_SLOW, PRIOR_IDLE)
+ZMK_COMBO(star, &kp STAR,    RT0 RM0,     COMBO_LAYERS, COMBO_TERM_SLOW, PRIOR_IDLE)
+ZMK_COMBO(plus, &kp PLUS,    RT1 RM1,     COMBO_LAYERS, COMBO_TERM_SLOW, PRIOR_IDLE)
 
-ZMK_COMBO(bslh,  &kp BSLH,      RM0 RB0,    COMBO_LAYERS, COMBO_TERM_SLOW, PRIOR_IDLE)
-ZMK_COMBO(fslh,  &kp FSLH,      RM1 RB1,     COMBO_LAYERS, COMBO_TERM_SLOW, PRIOR_IDLE)
-ZMK_COMBO(pipe,  PIPEHOLD,      RM2 RB2,     COMBO_LAYERS, COMBO_TERM_SLOW, PRIOR_IDLE)
+ZMK_COMBO(pipe, PIPEHOLD,    RM0 RB0,     COMBO_LAYERS, COMBO_TERM_SLOW, PRIOR_IDLE)
+ZMK_COMBO(amps, AMPSHOLD,    RM1 RB1,     COMBO_LAYERS, COMBO_TERM_SLOW, PRIOR_IDLE)
 
 /*********************************************************/
 // Cross hand combos
-//ZMK_COMBO(capsword,   &caps_word,       LM2 RM2,     ALL, COMBO_TERM_CROSSHAND)
+//ZMK_COMBO(capsword, &caps_word,           LM2 RM2,     ALL, COMBO_TERM_CROSSHAND)
 
 // ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 // The actual keymap layers
@@ -390,11 +384,11 @@ ZMK_COMBO(pipe,  PIPEHOLD,      RM2 RB2,     COMBO_LAYERS, COMBO_TERM_SLOW, PRIO
 
 ZMK_LAYER(base,
 //               ╭──────────────┬──────────────┬──────────────┬──────────────┬──────────────╮ ╭──────────────┬──────────────┬──────────────┬──────────────┬──────────────╮
-                   &kp Q          &kp W          &lt L_NUMPAD L &kp D          &kp P            &kp J          &kp M          &kp O          &kp Y          &kp SQT
+                   &kp Q          &kp W          &kp L          &kp D          &kp P            &kp J          &kp M          &kp O          &kp Y          &kp SQT
 //               ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤
                    &hml LCTL A    &hml LALT S    &hml LSFT R    &hml LGUI T    &kp G            &kp F          &hmr RGUI N    &hmr RSFT E    &hmr RALT I    &hmr RCTL U
 //╭──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼──────────────╮
-    &kp LA(A)      &lt L_NAVL X   &kp Z          &kp K          &lt L_SYM C    &kp V            &kp B          &lt L_SYM H    &comma_morph   &dot_morph     &lt L_NAV MINUS &kp LA(U)
+    &kp LA(A)      &lt L_NAVL X   &kp Z          &kp K          &kp C          &kp V            &kp B          &kp H          &comma_morph   &dot_morph     &lt L_NAV MINUS &kp LA(U)
 //╰──────────────┼──────────────┼──────────────┴──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┴──────────────┴──────────────╯
                                                  HYPER_ESC      &lt L_NAV BSPC &shift_nummeh    &lt L_NUMFN RET &mt RSFT SPACE &lt L_MEDIA TAB
 //                                             ╰──────────────┴──────────────┴──────────────╯ ╰──────────────┴──────────────┴──────────────╯
@@ -409,18 +403,6 @@ ZMK_LAYER(gaming,
     &kp LSFT       &kp B          &kp Z          &kp X          &kp C          &kp V            &kp N          &kp M          &kp COMMA      &kp DOT        &kp FSLH       &kp RSFT
 //╰──────────────┼──────────────┼──────────────┴──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┴──────────────┴──────────────╯
                                                  &mt LCTL ESC   &kp SPACE      &kp TAB          &lt L_NUMFN BSPC &kp RET      &lt L_MEDIA DEL
-//                                             ╰──────────────┴──────────────┴──────────────╯ ╰──────────────┴──────────────┴──────────────╯
-)
-
-ZMK_LAYER(symbols,
-//               ╭──────────────┬──────────────┬──────────────┬──────────────┬──────────────╮ ╭──────────────┬──────────────┬──────────────┬──────────────┬──────────────╮
-                   _X_            &kp AT         &kp LBRC       &kp RBRC       &kp PERCENT      _X_            &kp LT         &kp GT         &kp PIPE       &kp SQT
-//               ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤
-                   &mt LCTL CARET &mt LALT DOLLAR &mt LSFT LPAR &mt LGUI RPAR  ACMD(QMARK)      &kp STAR       &mt RGUI LBKT  &mt RSFT RBKT  &mt RALT AMPS  &mt RCTL PLUS
-//╭──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼──────────────╮
-    _X_            ACMD(TILDE)    &kp HASH       EQUALHOLD      EXCLHOLD       ACMD(GRAVE)      ACMD(BSLH)     ACMD(FSLH)     &comma_morph   &dot_morph     &kp MINUS      _X_
-//╰──────────────┼──────────────┼──────────────┴──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┴──────────────┴──────────────╯
-                                                 ___            ___            ___              ___            ___            ___
 //                                             ╰──────────────┴──────────────┴──────────────╯ ╰──────────────┴──────────────┴──────────────╯
 )
 
@@ -444,17 +426,6 @@ ZMK_LAYER(numfn_full,
     _X_            &kp KP_SLASH   &kp KP_ASTERISK &kp KP_SUBTRACT &kp KP_PLUS  _X_              &kp F11        &kp F12        &kp COMMA      &kp DOT        &kp MINUS      _X_
 //╰──────────────┼──────────────┼──────────────┴──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┴──────────────┴──────────────╯
                                                  ___            ___            ___              &mo L_NUMFN    &kp C_PP       _X_
-//                                             ╰──────────────┴──────────────┴──────────────╯ ╰──────────────┴──────────────┴──────────────╯
-)
-ZMK_LAYER(numpad,
-//               ╭──────────────┬──────────────┬──────────────┬──────────────┬──────────────╮ ╭──────────────┬──────────────┬──────────────┬──────────────┬──────────────╮
-                   _X_            _X_            &mo L_NUMPAD   _X_            _X_              _X_            &kp N7         &kp N8         &kp N9         _X_
-//               ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤
-                   _X_            _X_            _X_            _X_            _X_              &kp KP_ASTERISK &kp N4        &kp N5         &kp N6         &kp KP_PLUS
-//╭──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼──────────────╮
-    _X_            _X_            _X_            _X_            _X_            _X_              &kp KP_SLASH   &kp N1         &kp N2         &kp N3         &kp KP_SUBTRACT _X_
-//╰──────────────┼──────────────┼──────────────┴──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┴──────────────┴──────────────╯
-                                                 ___            ___            ___              &kp N0         &kp COMMA      &kp DOT
 //                                             ╰──────────────┴──────────────┴──────────────╯ ╰──────────────┴──────────────┴──────────────╯
 )
 
