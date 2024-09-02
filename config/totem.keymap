@@ -333,46 +333,38 @@ ZMK_HOLD_TAP(hyperlt,
 
 // Left hand
 ZMK_COMBO(lbrc, &kp LEFT_BRACE,          LT3 LT2,     COMBO_LAYERS, COMBO_TERM_FAST, PRIOR_IDLE)
-ZMK_COMBO(lpar, &kp LEFT_PARENTHESIS,    LT2 LT1,     COMBO_LAYERS, COMBO_TERM_FAST, PRIOR_IDLE)
+ZMK_COMBO(lpar, &kp LEFT_PARENTHESIS,        LT2 LT1, COMBO_LAYERS, COMBO_TERM_FAST, PRIOR_IDLE)
+ZMK_COMBO(care, &kp CARET,               LT3     LT1, COMBO_LAYERS, COMBO_TERM_SLOW, PRIOR_IDLE)
 ZMK_COMBO(at,   &kp AT_SIGN,             LT3 LT2 LT1, COMBO_LAYERS, COMBO_TERM_SLOW, PRIOR_IDLE)
 
 ZMK_COMBO(sz,   &hml LA(LSFT) LA(S),     LM3 LM2,     COMBO_LAYERS, COMBO_TERM_FAST, PRIOR_IDLE)
-ZMK_COMBO(bslh, &hml LG(LSFT) BACKSLASH, LM2 LM1,     COMBO_LAYERS, COMBO_TERM_FAST, PRIOR_IDLE)
+ZMK_COMBO(bslh, &hml LG(LSFT) BACKSLASH,     LM2 LM1, COMBO_LAYERS, COMBO_TERM_FAST, PRIOR_IDLE)
+ZMK_COMBO(tild, &hml LG(LALT) TILDE,     LM3     LM1, COMBO_LAYERS, COMBO_TERM_SLOW, PRIOR_IDLE)
 ZMK_COMBO(excl, &hml LG(LA(LSFT)) EXCLAMATION, LM3 LM2 LM1, COMBO_LAYERS, COMBO_TERM_SLOW, PRIOR_IDLE)
 
 ZMK_COMBO(lbkt, &kp LEFT_BRACKET,        LB3 LB2,     COMBO_LAYERS, COMBO_TERM_FAST, PRIOR_IDLE)
-ZMK_COMBO(lt,   &kp LESS_THAN,           LB2 LB1,     COMBO_LAYERS, COMBO_TERM_FAST, PRIOR_IDLE)
-ZMK_COMBO(tild, &kp TILDE,               LB3 LB2 LB1, COMBO_LAYERS, COMBO_TERM_SLOW, PRIOR_IDLE)
+ZMK_COMBO(lt,   &kp LESS_THAN,               LB2 LB1, COMBO_LAYERS, COMBO_TERM_FAST, PRIOR_IDLE)
+ZMK_COMBO(grav, &kp GRAVE,               LB3     LB1, COMBO_LAYERS, COMBO_TERM_SLOW, PRIOR_IDLE)
+ZMK_COMBO(prct, &kp PERCENT,             LB3 LB2 LB1, COMBO_LAYERS, COMBO_TERM_SLOW, PRIOR_IDLE)
 
 // Right hand
 ZMK_COMBO(rpar, &kp RIGHT_PARENTHESIS,   RT1 RT2,     COMBO_LAYERS, COMBO_TERM_FAST, PRIOR_IDLE)
-ZMK_COMBO(rbrc, &kp RIGHT_BRACE,         RT2 RT3,     COMBO_LAYERS, COMBO_TERM_FAST, PRIOR_IDLE)
-ZMK_COMBO(hash, &kp HASH,                RT1 RT2 RT3, COMBO_LAYERS, COMBO_TERM_SLOW, PRIOR_IDLE)
+ZMK_COMBO(rbrc, &kp RIGHT_BRACE,             RT2 RT3, COMBO_LAYERS, COMBO_TERM_FAST, PRIOR_IDLE)
+ZMK_COMBO(dllr, &kp DOLLAR,              RT1     RT3, COMBO_LAYERS, COMBO_TERM_SLOW, PRIOR_IDLE)
+ZMK_COMBO(amps, AMPSHOLD,                RT1 RT2 RT3, COMBO_LAYERS, COMBO_TERM_SLOW, PRIOR_IDLE)
 
-ZMK_COMBO(fslh, &hmr RG(RSFT) SLASH,     RM1 RM2,     COMBO_LAYERS, COMBO_TERM_FAST, PRIOR_IDLE)
-ZMK_COMBO(oe,   &hmr RA(RSFT) LA(O),     RM2 RM3,     COMBO_LAYERS, COMBO_TERM_FAST, PRIOR_IDLE)
-ZMK_COMBO(ques, &hmr RG(RA(RSFT)) QUESTION, RM1 RM2 RM3, COMBO_LAYERS, COMBO_TERM_SLOW, PRIOR_IDLE)
+ZMK_COMBO(minu, &hmr RG(RSFT) MINUS,     RM1 RM2,     COMBO_LAYERS, COMBO_TERM_FAST, PRIOR_IDLE)
+ZMK_COMBO(oe,   &hmr RA(RSFT) LA(O),         RM2 RM3, COMBO_LAYERS, COMBO_TERM_FAST, PRIOR_IDLE)
+ZMK_COMBO(plus, &hmr RG(RALT) PLUS,      RM1     RM3, COMBO_LAYERS, COMBO_TERM_SLOW, PRIOR_IDLE)
+ZMK_COMBO(equa, &hmr RG(RA(RSFT)) EQUAL, RM1 RM2 RM3, COMBO_LAYERS, COMBO_TERM_SLOW, PRIOR_IDLE)
 
-ZMK_COMBO(rbkt, &kp RIGHT_BRACKET,       RB1 RB2,     COMBO_LAYERS, COMBO_TERM_FAST, PRIOR_IDLE)
-ZMK_COMBO(gt,   &kp GREATER_THAN,        RB2 RB3,     COMBO_LAYERS, COMBO_TERM_FAST, PRIOR_IDLE)
-ZMK_COMBO(eq,   EQUALHOLD,               RB1 RB2 RB3, COMBO_LAYERS, COMBO_TERM_SLOW, PRIOR_IDLE)
+ZMK_COMBO(gt,   &kp GREATER_THAN,        RB1 RB2,     COMBO_LAYERS, COMBO_TERM_FAST, PRIOR_IDLE)
+ZMK_COMBO(rbkt, &kp RIGHT_BRACKET,           RB2 RB3, COMBO_LAYERS, COMBO_TERM_FAST, PRIOR_IDLE)
+ZMK_COMBO(star, &kp STAR,                RB1     RB3, COMBO_LAYERS, COMBO_TERM_SLOW, PRIOR_IDLE)
+ZMK_COMBO(hash, &kp HASH,                RB1 RB2 RB3, COMBO_LAYERS, COMBO_TERM_SLOW, PRIOR_IDLE)
 
 /*********************************************************/
 // Vertical combos
-
-// Left hand
-ZMK_COMBO(dllr, &kp DOLLAR,  LT1 LM1,     COMBO_LAYERS, COMBO_TERM_SLOW, PRIOR_IDLE)
-ZMK_COMBO(prct, &kp PERCENT, LT0 LM0,     COMBO_LAYERS, COMBO_TERM_SLOW, PRIOR_IDLE)
-
-ZMK_COMBO(grav, &kp GRAVE,   LM1 LB1,     COMBO_LAYERS, COMBO_TERM_SLOW, PRIOR_IDLE)
-ZMK_COMBO(care, &kp CARET,   LM0 LB0,     COMBO_LAYERS, COMBO_TERM_SLOW, PRIOR_IDLE)
-
-// Right hand
-ZMK_COMBO(star, &kp STAR,    RT0 RM0,     COMBO_LAYERS, COMBO_TERM_SLOW, PRIOR_IDLE)
-ZMK_COMBO(plus, &kp PLUS,    RT1 RM1,     COMBO_LAYERS, COMBO_TERM_SLOW, PRIOR_IDLE)
-
-ZMK_COMBO(pipe, PIPEHOLD,    RM0 RB0,     COMBO_LAYERS, COMBO_TERM_SLOW, PRIOR_IDLE)
-ZMK_COMBO(amps, AMPSHOLD,    RM1 RB1,     COMBO_LAYERS, COMBO_TERM_SLOW, PRIOR_IDLE)
 
 /*********************************************************/
 // Cross hand combos
@@ -388,7 +380,7 @@ ZMK_LAYER(base,
 //               ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤
                    &hml LCTL A    &hml LALT S    &hml LSFT R    &hml LGUI T    &kp G            &kp F          &hmr RGUI N    &hmr RSFT E    &hmr RALT I    &hmr RCTL U
 //╭──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼──────────────╮
-    &kp LA(A)      &lt L_NAVL X   &kp Z          &kp K          &kp C          &kp V            &kp B          &kp H          &comma_morph   &dot_morph     &lt L_NAV MINUS &kp LA(U)
+    &kp LA(A)      &lt L_NAVL X   &kp Z          &kp K          &kp C          &kp V            &kp B          &kp H          &comma_morph   &dot_morph     &lt L_NAV SLASH &kp LA(U)
 //╰──────────────┼──────────────┼──────────────┴──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┴──────────────┴──────────────╯
                                                  HYPER_KP DEL   &lt L_NAV BSPC &lt L_NUMMEH ESC &lt L_NUMFN RET &mt RSFT SPACE &lt L_MEDIA TAB
 //                                             ╰──────────────┴──────────────┴──────────────╯ ╰──────────────┴──────────────┴──────────────╯
@@ -412,7 +404,7 @@ ZMK_LAYER(numfn_meh,
 //               ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤
                    &mt LCTL MEH(A) &mt LALT MEH(S) &mt LSFT MEH(R) &mt LGUI MEH(T) &kp MEH(G)   &kp N6         &mt RGUI N7    &mt RSFT N8    &mt RALT N9    &mt RCTL N0
 //╭──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼──────────────╮
-    ASCMD(GRAVE)   &kp MEH(X)     &kp MEH(Z)     &kp MEH(K)     &kp MEH(C)     &kp MEH(V)       &kp F11        &kp F12        &kp COMMA      &kp DOT        &kp MINUS      _X_
+    ASCMD(GRAVE)   &kp MEH(X)     &kp MEH(Z)     &kp MEH(K)     &kp MEH(C)     &kp MEH(V)       &kp F11        &kp F12        &comma_morph   &dot_morph     &kp SLASH      _X_
 //╰──────────────┼──────────────┼──────────────┴──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┴──────────────┴──────────────╯
                                                  _X_            &kp C_PP       &mo L_NUMMEH     ___            ___            ___
 //                                             ╰──────────────┴──────────────┴──────────────╯ ╰──────────────┴──────────────┴──────────────╯
@@ -423,7 +415,7 @@ ZMK_LAYER(numfn_full,
 //               ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤
                    &hml LCTL N1   &hml LALT N2   &hml LSFT N3   &hml LGUI N4   &kp N5           &kp N6         &hmr RGUI N7   &hmr RSFT N8   &hmr RALT N9   &hmr RCTL N0
 //╭──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼──────────────╮
-    _X_            &kp KP_SLASH   &kp KP_ASTERISK &kp KP_SUBTRACT &kp KP_PLUS  _X_              &kp F11        &kp F12        &kp COMMA      &kp DOT        &kp MINUS      _X_
+    _X_            &kp KP_SLASH   &kp KP_ASTERISK &kp KP_SUBTRACT &kp KP_PLUS  _X_              &kp F11        &kp F12        &comma_morph   &dot_morph     &kp SLASH      _X_
 //╰──────────────┼──────────────┼──────────────┴──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┴──────────────┴──────────────╯
                                                  ___            ___            ___              &mo L_NUMFN    &kp C_PP       _X_
 //                                             ╰──────────────┴──────────────┴──────────────╯ ╰──────────────┴──────────────┴──────────────╯
