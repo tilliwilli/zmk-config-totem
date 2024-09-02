@@ -307,7 +307,7 @@ ZMK_HOLD_TAP(hyperlt,
     tapping-term-ms = <TAPPING_TERM>;
     bindings = <&hypermo>, <&kp>;
 )
-#define HYPER_ESC &hyperlt L_HYPER ESC
+#define HYPER_KP(keypress) &hyperlt L_HYPER keypress
 
 // ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 // COMBOS
@@ -390,7 +390,7 @@ ZMK_LAYER(base,
 //╭──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼──────────────╮
     &kp LA(A)      &lt L_NAVL X   &kp Z          &kp K          &kp C          &kp V            &kp B          &kp H          &comma_morph   &dot_morph     &lt L_NAV MINUS &kp LA(U)
 //╰──────────────┼──────────────┼──────────────┴──────────────┼──────────────┼──────────────┤ ├──────────────┼──────────────┼──────────────┼──────────────┴──────────────┴──────────────╯
-                                                 HYPER_ESC      &lt L_NAV BSPC &lt L_NUMMEH DEL &lt L_NUMFN RET &mt RSFT SPACE &lt L_MEDIA TAB
+                                                 HYPER_KP DEL   &lt L_NAV BSPC &lt L_NUMMEH ESC &lt L_NUMFN RET &mt RSFT SPACE &lt L_MEDIA TAB
 //                                             ╰──────────────┴──────────────┴──────────────╯ ╰──────────────┴──────────────┴──────────────╯
 )
 
